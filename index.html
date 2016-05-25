@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MoviesApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendations</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src = "js/movies_script.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+
+
+<body ng-controller="mainController" >
+
+<div id="home">
+    <h1> Movies Recommendations </h1>
+    <p>
+        Please Choose your preferences
+    </p>
+    <form ng-submit="submit()" id="preferences">
+        <label>
+            choose actor:
+            <input type="text" class="form-control autocomplete" ng-model="selected_actor" typeahead="actor.name for actor in actors">
+        </label>
+        <select id="select_age" ng-options="actor.year for actor in actors" form="preferences" >
+            <option value="" selected >choose birth year of the movie's actors </option>
+        </select>
+
+        <select id="select_country" ng-options="actor.country for actor in actors" form="preferences" >
+            <option value="" selected >choose country of the movie's actors </option>
+        </select>
+
+        <label>
+            choose director:
+            <input type="text" class="form-control autocomplete" ng-model="selected_direcor" typeahead="director.name for director in directors">
+        </label>
+
+
+
+    </form>
+
+
+
+</div>
+
+
+
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

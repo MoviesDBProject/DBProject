@@ -6,11 +6,15 @@
     <title>Movie Recommendations</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link id="linkRoot" href="~/" />
+    <link href="style/style.css">
 
     <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src = "js/movies_script.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/ui-bootstrap-tpls-1.3.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
 </head>
 
 
@@ -18,47 +22,113 @@
 
 <div id="home">
     <h1> Movies Recommendations </h1>
-    <p>
-        Please Choose your preferences
-    </p>
 
-    <form ng-submit="submit()" id="preferences">
+    <div class="form-group">
+        <form ng-submit="submit()" id="preferences">
 
-        <p>
-            <label >
-                choose actor:
-            </label>
+            <p>
+            <h4> Actors and Director Properties</h4>
+            </p>
 
-            <input type="text" ng-model="selected_actor"
-                   uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" class="form-control">
-        </p>
+            <div id="select_actor_div">
+                <label for="select_actor">
+                    choose actor:
+                </label>
 
-        <p>
-            <select id="select_age" ng-model="selected_age" ng-disabled="ActorSelected()"
-                    ng-options="actor.year for actor in actors" form="preferences">
-                <option value="" selected >choose birth year of the movie's actors </option>
-            </select>
+                <input type="text" id="select_actor" ng-model="selected_actor"  maxlength="30"
+                       uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" class="form-control">
+            </div>
 
-            <select id="select_country" ng-model="selected_country" ng-disabled="ActorSelected()"
-                    ng-options="actor.country for actor in actors" form="preferences" >
+            <div id="select_age_country">
+                <select  ng-model="selected_age" ng-disabled="selected_actor"
+                        ng-options="actor.year for actor in actors" form="preferences">
+                    <option value="" selected >choose birth year of the movie's actors </option>
+                </select>
 
-                <option value="" selected >choose country of the movie's actors </option>
-            </select>
+                <select ng-model="selected_country" ng-disabled="selected_actor"
+                        ng-options="actor.country for actor in actors" form="preferences" >
 
-        </p>
-        <p>
-            <label >
-                choose director:
-            </label>
-            <input type="text" class="form-control autocomplete" ng-model="selected_direcor" typeahead="director.name for director in actors">
+                    <option value="" selected >choose the birth place of the film's actors </option>
+                </select>
 
-        </p>
+            </div>
+
+            <div id="select_director">
+                <label >
+                    choose director:
+                </label>
+                <input type="text" ng-model="selected_direcor" ng-maxlength=20
+                       uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" class="form-control">
+            </div>
+
+            <p>
+                <h4> Film Properties</h4>
+            </p>
+
+            <div id="select_genre">
+                <select ng-model="selected_genre" ng-options="genre for genre in genres" form="preferences" >
+
+                    <option value="" selected >Choose preferred genre</option>
+                </select>
+            </div>
+
+            <div id="select_movie_location">
+
+                <label for="movie_location">
+                    Film Location
+                </label>
+                <input id="movie_location" type="text" class="form-control" ng-model="selected_film_location"
+                       uib-typeahead="country for country in countries | filter:$viewValue | limitTo:8">
+
+            </div>
+
+            <div id="film_language_p">
+                <span>
+                    <label for="film_language">
+                        Film Location
+                    </label>
+                </span>
+                <span>
+                    <input id="film_language" type="text" class="form-control" ng-model="selected_film_language"
+                       uib-typeahead="language for language in languages | filter:$viewValue | limitTo:8">
+                </span>
+            </div>
+
+            <div id="youtube_views">
+
+                <p>
+                    <label for="youtube_min_views">
+                        Minimal number of views in YouTube
+                    </label>
+                </p>
+                <input id="youtube_min_views" type="number" ng-model="selected_min_views">
+
+            </div>
+
+            <div id="max_likes">
+
+                <span>
+                    <label for="youtube_max_likes">
+                        Choose most popular film (by likes)
+                    </label>
+                </span>
+                <span>
+                    <input id="youtube_max_likes" type="checkbox" ng-model="selected_max_likes">
+                </span>
+
+            </div>
+
+            <div id="submit_result">
+                <input type="submit">
+
+            </div>
 
 
 
-    </form>
 
+        </form>
 
+    </div>
 
 
 

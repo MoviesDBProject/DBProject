@@ -1,12 +1,5 @@
 var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
-MoviesApp.config(["$provide", function ($provide) {
-    var rootUrl = $("#linkRoot").attr("href");
-
-    $provide.constant('rootUrl', rootUrl);
-}])
-
-
 MoviesApp.controller('mainController', function($scope,$http,$window) {
 
     $scope.actors  = [

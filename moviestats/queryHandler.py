@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-import mysql.connector
+from django.db import connection
+
 
 def handle_query(request):
 	example_json = {"actor": "dan",
@@ -9,9 +10,9 @@ def handle_query(request):
 	                "film_location": "algeria",
 	                "film_language": "arabic",
 	                "min_views": "200000",
-	                "sort":True
-}
+	                "sort": True
+	                }
 
-
+	cursor = connection.cursor()
 
 	return HttpResponse("test")

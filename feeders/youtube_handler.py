@@ -33,9 +33,29 @@ def youtube_search(search_term):
 	channels = []
 	playlists = []
 
+
+	vid_id = search_response.get("items", [])[0]["id"]["videoId"]
+	statistics_response = youtube.videos().list(
+			part="id,statistics",
+			id = vid_id
+	).execute()
+
+
+	result = {}
+
+	result["youtube_id"] = vid_id
+	result["title"] = search_response.get("items", [])[0]["snippet"]["title"]
+	#result["category_id"] = search_response.get("items", [])[0]["snippet"]["categoryId"]
+	result["view_count"] = statistics_response.get("items", [])[0]["statistics"]["viewCount"]
+	result["likes"] = statistics_response.get("items", [])[0]["statistics"]["likeCount"]
+
+	#print result
+	return result
+
 	# Add each result to the appropriate list, and then display the lists of
 	# matching videos, channels, and playlists.
-	print search_response.get("items", [])[0]
+	#print search_response.get("items", [])[0]
+	#print statistics_response.get("items", [])[0]
 	# for search_result in search_response.get("items", []):
 	# 	if search_result["id"]["kind"] == "youtube#video":
 	# 		videos.append("%s (%s)" % (search_result["snippet"]["title"],
@@ -47,10 +67,10 @@ def youtube_search(search_term):
 	# 		playlists.append("%s (%s)" % (search_result["snippet"]["title"],
 	# 		                              search_result["id"]["playlistId"]))
 
-	print "Videos:\n", "\n".join(videos), "\n"
-	print "Channels:\n", "\n".join(channels), "\n"
-	print "Playlists:\n", "\n".join(playlists), "\n"
+	#print "Videos:\n", "\n".join(videos), "\n"
+	#print "Channels:\n", "\n".join(channels), "\n"
+	#print "Playlists:\n", "\n".join(playlists), "\n"
 
 
-if __name__ == '__main__':
-	youtube_search("1001 Inventions and the World of Ibn Al-Haytham")
+#if __name__ == '__main__':
+#	youtube_search("1001 Inventions and the World of Ibn Al-Haytham")

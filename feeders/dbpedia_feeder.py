@@ -32,7 +32,7 @@ def get_movies_from_dbpedia():
 					fetched += 1
 					try:
 						result = fetch_movie_info(film_id)
-						# print result
+						print result
 						print fetched
 					except:
 						pass
@@ -93,7 +93,12 @@ def fetch_movie_info(url):
 
 	if success:
 		counter += 1
-	# result['youtube'] = youtube_search()
+
+	try:
+		result['youtube'] = youtube_search(result[TITLE])
+	except:
+		pass
+
 	print "=============================================="
 	return result
 

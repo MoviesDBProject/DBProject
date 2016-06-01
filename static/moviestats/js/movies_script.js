@@ -50,7 +50,7 @@ MoviesApp.controller('mainController', function($scope,$http,$window) {
     $scope.submit = function(){
 
         $http({
-            url: "/fetch_results",
+            url: "/fetch_results/",
             method: "POST",
             data: $scope.formData,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}

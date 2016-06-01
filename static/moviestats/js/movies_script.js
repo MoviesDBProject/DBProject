@@ -44,13 +44,24 @@ MoviesApp.controller('mainController', function($scope,$http,$window) {
 
     $scope.languages = ["Hebrew","English","Arabic","French"];
 
-    $scope.pattern =
+
+
+
     $scope.submit = function(){
+
         $http({
-            url: "",
-            method: "GET",
-            params: {}
-        });
+            url: "/fetch_results",
+            method: "POST",
+            data: $scope.formData,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .success(function(response){
+            console.log(response);
+        })
+
+
+
+
     };
 
 

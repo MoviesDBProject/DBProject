@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d64015b-363b-4ac1-b01e-739822e45313" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/feeders/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/feeders/dbpedia_feeder.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/feeders/youtube_handler.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="DBProject.iws" />
@@ -31,12 +27,6 @@
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -47,7 +37,7 @@
       <file leaf-file-name="queryHandler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/moviestats/queryHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state relative-caret-position="102">
               <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
@@ -56,11 +46,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19354838">
+            <state relative-caret-position="1156">
               <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dbpedia_feeder.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/feeders/dbpedia_feeder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -69,7 +69,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/moviestats/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state relative-caret-position="85">
               <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
               <folding />
             </state>
@@ -112,14 +112,17 @@
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" />
-  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -210,7 +213,6 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="FullScreen" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -308,12 +310,14 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.grunt" factoryName="Grunt.js">
+      <node-interpreter value="project" />
       <envs />
       <force value="false" />
       <verbose value="false" />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
@@ -324,6 +328,7 @@
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run-script" />
       <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
@@ -459,7 +464,9 @@
       <item index="0" class="java.lang.String" itemvalue="Python.movieserver" />
     </list>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -468,35 +475,41 @@
       <changelist id="7d64015b-363b-4ac1-b01e-739822e45313" name="Default" comment="" />
       <created>1464171502608</created>
       <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
       <updated>1464171502608</updated>
     </task>
     <task id="LOCAL-00001" summary="first windows is done. awaits server work to enable http request">
       <created>1464422613402</created>
       <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
       <updated>1464422613402</updated>
     </task>
     <task id="LOCAL-00002" summary="server integration">
       <created>1464718230246</created>
       <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
       <updated>1464718230246</updated>
     </task>
     <task id="LOCAL-00003" summary="server integration">
       <created>1464723355290</created>
       <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
       <updated>1464723355290</updated>
     </task>
     <task id="LOCAL-00004" summary="fixed the webstite works">
       <created>1464726503971</created>
       <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
       <updated>1464726503971</updated>
     </task>
     <task id="LOCAL-00005" summary="added js">
       <created>1464767010562</created>
       <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
       <updated>1464767010562</updated>
     </task>
@@ -504,23 +517,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24450952" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32465753" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24474959" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32334384" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -553,69 +566,83 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/manage.py">
+    <entry file="file://$PROJECT_DIR$/moviestats/queryHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="102">
+          <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1156">
+          <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
+    <entry file="file://$PROJECT_DIR$/feeders/dbpedia_feeder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/moviestats/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="85">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moviestats/queryHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
+    <entry file="file://$PROJECT_DIR$/moviestats/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        <state relative-caret-position="85">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="59" selection-start-line="3" selection-start-column="59" selection-end-line="3" selection-end-column="59" />
-          <folding>
-            <element signature="e#639#680#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="59" selection-start-line="3" selection-start-column="59" selection-end-line="3" selection-end-column="59" />
-          <folding>
-            <element signature="e#639#680#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moviestats/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -623,43 +650,71 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09698276">
+        <state relative-caret-position="0">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="3" column="59" selection-start-line="3" selection-start-column="59" selection-end-line="3" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="3" column="59" selection-start-line="3" selection-start-column="59" selection-end-line="3" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moviestats/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
           <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/moviestats/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#39#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/moviestats/style/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37671232">
+        <state relative-caret-position="0">
           <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/moviestats/js/movies_script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2189781">
+        <state relative-caret-position="0">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -671,28 +726,13 @@
           <nodes />
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="263.5" y="217.5" />
+          <settings layout="Hierarchic Group" zoom="1.0" x="264.0" y="218.0" />
           <SelectedNodes />
           <Categories>
-            <Category>Key columns</Category>
             <Category>Columns</Category>
+            <Category>Key columns</Category>
           </Categories>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/feeders/youtube_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12903225">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/feeders/dbpedia_feeder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19354838">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
@@ -704,26 +744,20 @@
           <nodes />
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="467.5" y="219.0" />
+          <settings layout="Hierarchic Group" zoom="1.0" x="468.0" y="219.0" />
           <SelectedNodes />
           <Categories>
-            <Category>Key columns</Category>
             <Category>Columns</Category>
+            <Category>Key columns</Category>
           </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/75a7210b-b616-4de6-b4f3-b0221f7f2224/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/75a7210b-b616-4de6-b4f3-b0221f7f2224/console.sql" />
     <entry file="file://$PROJECT_DIR$/moviestats/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="85">
           <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding />
         </state>
@@ -731,15 +765,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61290324">
+        <state relative-caret-position="0">
           <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/moviestats/queryHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="102">
           <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
@@ -749,8 +782,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19354838">
+        <state relative-caret-position="1156">
           <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/feeders/youtube_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/feeders/dbpedia_feeder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>

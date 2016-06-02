@@ -51,9 +51,17 @@ MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
     results_table.setAttribute("border", "1");
 
     $scope.results_cols = ["Actor", "Year", "Language"];
-    $scope.results_contents = [{ actor: "Dror", year: "1990", language: "Hebrew"},
-        { actor: "Tomer", year: "1990", language: "Hebrew"}];
+    $scope.results_contents = [{id:1, actor: "Dror", year: "1990", language: "Hebrew"},
+        {id:2, actor: "Tomer", year: "1990", language: "Hebrew"},
+        {id:3, actor: "Some actor", year: "2000", language: "English"}];
 
+
+    $scope.show_item = 0;
+    $scope.previous_disabled = 1;
+    $scope.next_disabled = 0;
+    if ($scope.results_contents.length < 2)
+        disable_next_button();
+    disable_previous_button();
 
     // Create YouTube playlist
     var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
@@ -85,7 +93,41 @@ MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
         })
     };
 
+    $scope.click_next = function(){
+        $scope.show_item++;
+        if ($scope.show_item > 0)
+            enable_previous_button();
+        if ($scope.show_item == $scope.results_contents.length - 1)
+            disable_next_button();
+    };
 
+    $scope.click_previous = function() {
+        $scope.show_item--;
+        if ($scope.show_item == 0)
+            disable_previous_button();
+        if ($scope.show_item < $scope.results_contents.length - 1)
+            enable_next_button();
+    };
+
+    function disable_next_button(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
+        $scope.next_disabled = 1;
+    }
+
+    function disable_previous_button(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
+        $scope.previous_disabled = 1;
+    }
+
+    function enable_next_button(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary");
+        $scope.next_disabled = 0;
+    }
+
+    function enable_previous_button(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary");
+        $scope.previous_disabled = 0;
+    }
 
 });
 

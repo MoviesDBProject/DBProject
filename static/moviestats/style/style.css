@@ -46,10 +46,9 @@ body {
 }
 
 #show_results {
-    margin-left: 15%;
+    margin-bottom: 10%;
 }
 
-#trailers {
-    margin-left: 15%;
-    margin-bottom: 10%;
+#results_table {
+    margin-left: 10%;
 }

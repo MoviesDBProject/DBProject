@@ -1,6 +1,6 @@
 var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
-MoviesApp.controller('mainController', function($scope,$http,$window) {
+MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
 
     $scope.actors  = [
                         {name:"dan", year:1995, country: "Israel"},
@@ -47,21 +47,42 @@ MoviesApp.controller('mainController', function($scope,$http,$window) {
 
 
 
+    var results_element = document.getElementById("show_results");
+    results_table.setAttribute("border", "1");
+
+    $scope.results_cols = ["Actor", "Year", "Language"];
+    $scope.results_contents = [{ actor: "Dror", year: "1990", language: "Hebrew"},
+        { actor: "Tomer", year: "1990", language: "Hebrew"}];
+
+
+    // Create YouTube playlist
+    var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
+    var youtube_url_str = "https://www.youtube.com/embed/VIDEO_ID?playlist=";
+    for (i = 0; i < youtube_id_list.length; i++){
+        youtube_url_str = youtube_url_str + youtube_id_list[i];
+        if (i < youtube_id_list.length - 1)
+            youtube_url_str = youtube_url_str + ",";
+    };
+    $scope.youtube_url = $sce.trustAsResourceUrl(youtube_url_str);
+
+    //document.getElementById("debug").innerHTML = $scope.results_cols.indexOf("Actor").toString();
+
+
     $scope.submit = function(){
 
         $http({
-            url: "/fetch_results",
+            url: "/fetch_results/",
             method: "POST",
             data: $scope.formData,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .success(function(response){
             console.log(response);
+            results_element.removeChild(document.getElementById("results_table"));
+            var results_table = document.createElement("table");
+            results_table.setAttribute("id", "results_table");
+            results_element.appendChild(results_table);
         })
-
-
-
-
     };
 
 

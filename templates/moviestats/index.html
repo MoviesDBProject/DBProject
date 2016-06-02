@@ -156,7 +156,28 @@
 
     </div>
 
-    <div id="trailers"></div>
+    <div id="show_results">
+        <table id="results_table">
+
+            <tr>
+                <td ng-repeat="col in results_cols">{{col}}</td>
+            </tr>
+
+            <tr ng-repeat="result in results_contents">
+                <td ng-if="results_cols.indexOf('Actor') != -1">{{result.actor}}</td>
+                <td>{{result.year}}</td>
+                <td>{{result.language}}</td>
+            </tr>
+
+        </table>
+
+        <br><br><span id="debug"></span><br>
+    </div>
+
+
+    <div id="trailers">
+        <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
+    </div>
 
 
 </div>

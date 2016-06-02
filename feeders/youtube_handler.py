@@ -14,32 +14,28 @@ YOUTUBE_API_VERSION = "v3"
 
 
 def youtube_search(search_term):
-	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-	                developerKey=DEVELOPER_KEY)
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    developerKey=DEVELOPER_KEY)
 
-	# Call the search.list method to retrieve results matching the specified
-	# query term.
-	search_response = youtube.search().list(
-			q=search_term,
-			part="id,snippet",
-			maxResults=1
-	).execute()
+    # Call the search.list method to retrieve results matching the specified
+    # query term.
 
+    search_response = youtube.search().list(
+        q=search_term,
+        part="id,snippet",
+        maxResults=1
+        ).execute()
 
-	vid_id = search_response.get("items", [])[0]["id"]["videoId"]
-	statistics_response = youtube.videos().list(
-			part="id,statistics",
-			id = vid_id
-	).execute()
+    vid_id = search_response.get("items", [])[0]["id"]["videoId"]
+    statistics_response = youtube.videos().list(part="id,statistics", cid=vid_id
+                                                ).execute()
 
+    result = dict()
 
-	result = {}
-
-	result["youtube_id"] = vid_id
-	result["title"] = search_response.get("items", [])[0]["snippet"]["title"]
-	#result["category_id"] = search_response.get("items", [])[0]["snippet"]["categoryId"]
-	result["view_count"] = statistics_response.get("items", [])[0]["statistics"]["viewCount"]
-	result["likes"] = statistics_response.get("items", [])[0]["statistics"]["likeCount"]
-
-	#print result
-	return result
+    result["youtube_id"] = vid_id
+    result["title"] = search_response.get("items", [])[0]["snippet"]["title"]
+    # result["category_id"] = search_response.get("items", [])[0]["snippet"]["categoryId"]
+    result["view_count"] = statistics_response.get("items", [])[0]["statistics"]["viewCount"]
+    result["likes"] = statistics_response.get("items", [])[0]["statistics"]["likeCount"]
+    # print result
+    return result

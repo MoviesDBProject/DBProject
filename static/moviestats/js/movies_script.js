@@ -1,6 +1,48 @@
 var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
-MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
+MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
+
+
+    $scope.$on('$routeChangeSuccess', function () {
+        var entries = ["actors","directors","languages","countries"];
+
+        entries.forEach(function (entry_name) {
+            $http({
+            url: "/get_" + entry_name + "/" ,
+            method: "GET",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+           })
+           .then(function successCallback(response) {
+               var response_data = JSON.stringify(response.data);
+               switch (entry_name) {
+                   case "actors" :
+                        $scope.actors = response_data;
+                       break;
+                   case "directors" :
+                        $scope.directors = response_data;
+                       break;
+                   case "languages" :
+                       $scope.languages = response_data;
+                       break;
+                   case "countries" :
+                       $scope.countries = response_data;
+                       break;
+                   default:
+                       break;
+               }
+
+           },
+           function errorCallback(response){
+               if (response.status == 404) {
+                   var landingUrl = "http://" + $window.location.host + "/404.html";
+                    $window.location.href = landingUrl;
+               }
+           })
+        })
+
+
+    });
+
 
     $scope.actors  = [
                         {name:"dan", year:1995, country: "Israel"},
@@ -51,7 +93,8 @@ MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
     results_table.setAttribute("border", "1");
 
     $scope.results_cols = ["Actor", "Year", "Language"];
-    $scope.results_contents = [{id:1, actor: "Dror", year: "1990", language: "Hebrew"},
+    $scope.results_contents = [
+        {id:1, actor: "Dror", year: "1990", language: "Hebrew"},
         {id:2, actor: "Tomer", year: "1990", language: "Hebrew"},
         {id:3, actor: "Some actor", year: "2000", language: "English"}];
 
@@ -84,13 +127,20 @@ MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
             data: $scope.formData,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
-        .success(function(response){
-            console.log(response);
+        .then(function(response){
+            console.log(response.data);
+            //$scope.results_contents = response.data;
             results_element.removeChild(document.getElementById("results_table"));
             var results_table = document.createElement("table");
             results_table.setAttribute("id", "results_table");
             results_element.appendChild(results_table);
-        })
+
+        } , function errorCallback(response){
+               if (response.status == 404) {
+                   var landingUrl = "http://" + $window.location.host + "/404.html";
+                    $window.location.href = landingUrl;
+               }
+           })
     };
 
     $scope.click_next = function(){
@@ -109,25 +159,25 @@ MoviesApp.controller('mainController', function($scope,$http,$window,$sce) {
             enable_next_button();
     };
 
-    function disable_next_button(){
+    $scope.disable_next_button = function(){
         document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
         $scope.next_disabled = 1;
-    }
+    };
 
-    function disable_previous_button(){
+    $scope.disable_previous_button = function(){
         document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
         $scope.previous_disabled = 1;
-    }
+    };
 
-    function enable_next_button(){
+    $scope.enable_next_button = function(){
         document.getElementById("next").setAttribute("class", "btn btn-primary");
         $scope.next_disabled = 0;
-    }
+    };
 
-    function enable_previous_button(){
+    $scope.enable_previous_button = function(){
         document.getElementById("previous").setAttribute("class", "btn btn-primary");
         $scope.previous_disabled = 0;
-    }
+    };
 
 });
 

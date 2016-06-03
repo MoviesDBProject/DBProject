@@ -80,8 +80,8 @@ DATABASES = {
             'NAME': 'DbMysql03',
             'USER': 'DbMysql03',
             'PASSWORD': 'DbMysql03',
-            'HOST': '127.0.0.1',  #'mysqlsrv.cs.tau.ac.il',   # Or an IP Address that your DB is hosted on
-            'PORT': '3305'
+            'HOST': 'mysqlsrv.cs.tau.ac.il',   # Or an IP Address that your DB is hosted on
+            'PORT': '3306'
         }
 }
 

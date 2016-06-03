@@ -34,7 +34,7 @@ def handle_query(request):
 
 	cursor = connection.cursor()
 	cursor.execute(""" SELECT movie_url FROM trailers
- 					   WHERE trailers.views_count > {0} JOIN
+ 				       WHERE trailers.views_count > {0} JOIN
 						(SELECT actors.movie_id as sub_movie_id FROM actors
 						 WHERE actors.first_name = {1}
 						JOIN movie_actor ON actors.actor_id = movie_actor.actor_id) as sub_query

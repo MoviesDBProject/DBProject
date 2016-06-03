@@ -75,7 +75,7 @@
                             choose director:
                         </label>
                         <input type="text" class="form-control" ng-model="formData.director"
-                               ng-required="!formData.actor || !formData.actor_age || !formData.actor_country"
+                               ng-required="!formData.actor"
                                uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" >
                     </p>
 

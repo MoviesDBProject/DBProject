@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.db import connection
-
 # * Movies (Movie ID, title, Language ID, Country ID, Budget, Runtime,Last updated)
 #
 # * Actors (Actor ID, first name, last name, birthplace, DateOfBirth, last updated )

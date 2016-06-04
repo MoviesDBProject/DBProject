@@ -2,6 +2,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from rdflib import Graph, URIRef, RDF
 from constatns import *
 from youtube_handler import *
+import urllib2,json
 
 counter = 0
 
@@ -36,6 +37,7 @@ def get_movies_from_dbpedia():
                     try:
                         movie_info = fetch_movie_info(film_id)
                         movie_info[ABSTRACT] = film['film_abstract']['value']
+                        movie_info[WIKI_ID] = get_wiki_id(movie_info[TITLE])
                         films_info.append(movie_info)
                         films.add(film_id)
                         print movie_info
@@ -107,15 +109,15 @@ def fetch_movie_info(url):
     return result
 
 
-def fetch_person_info(actors_urls):
+def fetch_person_info(persons_urls):
     result = []
-    for actor_url in actors_urls:
-        if not actor_url.startswith(DBPEDIA_PREFIX):
-            return {NAME: actor_url}
+    for person_url in persons_urls:
+        if not person_url.startswith(DBPEDIA_PREFIX):
+            return {NAME: person_url}
 
         try:
-            actor_info = {}
-            uri = URIRef(actor_url)
+            person_info = {}
+            uri = URIRef(person_url)
             graph = Graph()
             graph.parse(uri)
             for s, p, o in graph:
@@ -124,16 +126,28 @@ def fetch_person_info(actors_urls):
                     rdf_val_str = str(o)
                     # print "{0} : {1}".format(rdf_key_str,rdf_val_str)
                     if rdf_key_str in personMapFromRdf:
-                        actor_info[personMapFromRdf[rdf_key_str]] = rdf_val_str
+                        person_info[personMapFromRdf[rdf_key_str]] = rdf_val_str
                 except:
                     pass
-            if BIRTH_PLACE in actor_info and actor_info[BIRTH_PLACE].startswith(DBPEDIA_PREFIX):
-                actor_info[BIRTH_PLACE] = fetch_name_from_dbpedia_page(actor_info[BIRTH_PLACE])
-            result.append(actor_info)
+            if BIRTH_PLACE in person_info and person_info[BIRTH_PLACE].startswith(DBPEDIA_PREFIX):
+                person_info[BIRTH_PLACE] = fetch_name_from_dbpedia_page(person_info[BIRTH_PLACE])
+
+            person_info[WIKI_ID] = get_wiki_id(person_info[NAME])
+            result.append(person_info)
         except:
             pass
 
     return result
+
+
+def get_wiki_id(name):
+    name = name.replace(" ", "_")
+    wiki_id = urllib2.urlopen('https://en.wikipedia.org/w/api.php?action=query&titles=%s&format=json' % name)
+    json_id = json.load(wiki_id)
+    return json_id['query']['pages'].keys()[0]
+
+
+
 
 
 def fetch_name_from_dbpedia_page(url):

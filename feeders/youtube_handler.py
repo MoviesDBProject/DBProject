@@ -22,6 +22,7 @@ def youtube_search(search_term):
 
     search_response = youtube.search().list(
         q=search_term,
+        type="video",
         part="id,snippet",
         maxResults=1
     ).execute()
@@ -36,11 +37,10 @@ def youtube_search(search_term):
 
     result["youtube_id"] = vid_id
     result["title"] = search_response.get("items", [])[0]["snippet"]["title"]
-    # result["category_id"] = search_response.get("items", [])[0]["snippet"]["categoryId"]
+    #result["category_id"] = search_response.get("items", [])[0]["snippet"]["categoryId"]
     result["view_count"] = statistics_response.get("items", [])[0]["statistics"]["viewCount"]
     result["likes"] = statistics_response.get("items", [])[0]["statistics"]["likeCount"]
 
-    print result
     return result
 
 if __name__ == '__main__':

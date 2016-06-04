@@ -12,7 +12,7 @@ BIRTH_DATE = "birth_date"
 NAME = "name"
 DBPEDIA_PREFIX = "http://dbpedia"
 YOUTUBE = "youtube"
-DESCRIPTION = 'description'
+WIKI_ID = 'wiki_id'
 
 ITERS = 1
 RANGE = 100

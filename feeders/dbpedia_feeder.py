@@ -7,11 +7,13 @@ counter = 0
 
 
 def get_movies_from_dbpedia():
-    films_set = set()
-    for i in range(40):
-        start = i * 10000
-        end = (i + 1) * 10000
+    films = set()
+    films_info = []
+    for i in range(ITERS):
+        start = i * RANGE
+        end = (i + 1) * RANGE
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+
         sparql.setQuery("""
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT DISTINCT ?film_title ?film_abstract
@@ -21,30 +23,34 @@ def get_movies_from_dbpedia():
                 FILTER (langMatches(lang(?film_abstract),"en"))
             }LIMIT %s OFFSET %s
             """ % (end, start))
-        print "[+]==== Getting movies from {0} to {1} ====[+]".format(start, end)
+        print("[+]==== Getting movies from %d to %d ====[+]" %(start, end))
         sparql.setReturnFormat(JSON)
-        # try:
         results = sparql.query().convert()
-        fetched = 0
+        fetched= 0
         # iterate over films
         for film in results["results"]["bindings"]:
             try:
                 film_id = film['film_title']['value']
-                if film_id not in films_set:
+                if film_id not in films:
                     fetched += 1
                     try:
-                        result = fetch_movie_info(film_id)
-                        print result
+                        movie_info = fetch_movie_info(film_id)
+                        movie_info[ABSTRACT] = film['film_abstract']['value']
+                        films_info.append(movie_info)
+                        films.add(film_id)
+                        print movie_info
                         print fetched
                     except:
                         pass
                         # print "Success score: {0}/{1}".format(counter,fetched)
-                films_set.add(film_id)
+
             except Exception as e:
                 print "Failed, Breaking"
                 print str(e)
                 break
-    print "[+]==== Fetched {0} movies from DbPedia ====[+]".format(len(films_set))
+
+    print("[+]==== Fetched %d movies from DBPedia ====[+]" % len(films))
+    return films_info
 
 
 def fetch_movie_info(url):
@@ -61,7 +67,7 @@ def fetch_movie_info(url):
             rdf_val_str = str(offspring)   # value
 
             # check if the each of the film rdf dependencies' type is one of those we want to save
-            if rdf_key_str in movieMapFromRdf.keys() and rdf_val_str != '*':
+            if rdf_key_str in movieMapFromRdf and rdf_val_str != '*':
                 key_in_result = movieMapFromRdf[rdf_key_str]
                 if key_in_result == ACTORS:
                     if key_in_result in result:
@@ -77,12 +83,12 @@ def fetch_movie_info(url):
     if ACTORS in result:
         result[ACTORS] = fetch_person_info(result[ACTORS])
     else:
-        result[ACTORS] = {}
+        result[ACTORS] = []
 
     if DIRECTOR in result:
         result[DIRECTOR] = fetch_person_info([result[DIRECTOR]])[0]
     else:
-        result[DIRECTOR] = {}
+        result[DIRECTOR] = []
 
     if LANGUAGE in result and result[LANGUAGE].startswith(DBPEDIA_PREFIX):
         result[LANGUAGE] = fetch_name_from_dbpedia_page(result[LANGUAGE])
@@ -92,21 +98,21 @@ def fetch_movie_info(url):
 
     if success:
         counter += 1
-        try:
-            result[YOUTUBE] = youtube_search(result[TITLE])
-        except:
-            pass
+    try:
+        result[YOUTUBE] = youtube_search(result[TITLE] + " trailer")
+    except:
+        pass
 
-        print "=============================================="
-        return result
+    print("==============================================")
+    return result
 
 
 def fetch_person_info(actors_urls):
     result = []
     for actor_url in actors_urls:
         if not actor_url.startswith(DBPEDIA_PREFIX):
-            result.append({NAME: actor_url})
-            continue
+            return {NAME: actor_url}
+
         try:
             actor_info = {}
             uri = URIRef(actor_url)

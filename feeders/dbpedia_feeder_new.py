@@ -120,9 +120,13 @@ def fetch_movie_info(film):
 		print str(e)
 
 	for person in movie_info[ACTORS]:
+		if len(movie_info[ACTORS])==1 and movie_info[ACTORS][0]=='':
+			break
 		actors_to_insert.append(fetch_person_info(person))
 
 	for person in movie_info[DIRECTORS]:
+		if len(movie_info[DIRECTORS])==1 and movie_info[DIRECTORS][0]=='':
+			break
 		directors_to_insert.append(fetch_person_info(person))
 
 
@@ -190,7 +194,7 @@ def fetch_person_info(person_dbpedia):
 		index_of = name.find("(")
 		if index_of!=-1:
 			name = name[:index_of]
-			name.replace(' ','')
+			name = name.strip()
 	else:
 		name = person_dbpedia
 		id = name
@@ -200,8 +204,8 @@ def fetch_person_info(person_dbpedia):
 		ID: hash_func(id)
 	}
 
-	pprint.pprint(person_info)
-	print "====================================="
+	# pprint.pprint(person_info)
+	# print "====================================="
 
 	return person_info
 

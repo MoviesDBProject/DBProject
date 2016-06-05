@@ -128,6 +128,7 @@ def fetch_movie_info(film):
 			break
 		actors_to_insert.append(fetch_person_info(person))
 
+
 	for person in movie_info[DIRECTORS]:
 		if len(movie_info[DIRECTORS])==1 and movie_info[DIRECTORS][0]=='':
 			break
@@ -149,12 +150,15 @@ def fetch_movie_info(film):
 			temp_run_time = temp_run_time.strip()
 			movie_info[OMDB_RUNTIME.lower()] = temp_run_time
 		imdb_genre = omdb_result.get(OMDB_GENRE,NA)
+
 		if imdb_genre !=NA:
+			new_imdb_genre = []
 			imdb_genre = imdb_genre.split(',')
-			last = imdb_genre[len(imdb_genre) - 1]
-			imdb_genre[len(imdb_genre) - 1] = last.strip()
-			for i in imdb_genre:
-				i.replace(" ","")
+			for genre in imdb_genre:
+				new_imdb_genre.append(genre.strip())
+			imdb_genre=new_imdb_genre
+
+
 		else:
 			imdb_genre = [NA]
 		movie_info[OMDB_GENRE.lower()] =imdb_genre

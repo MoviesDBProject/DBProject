@@ -12,14 +12,17 @@ BIRTH_DATE = "birth_date"
 NAME = "name"
 DBPEDIA_PREFIX = "http://dbpedia"
 YOUTUBE = "youtube"
+WIKI_ID = 'wiki_id'
 
+ITERS = 1
+RANGE = 100
 
 movieMapFromRdf = {
+
     "http://dbpedia.org/ontology/director": DIRECTOR,
     "http://dbpedia.org/property/starring": ACTORS,
     "http://xmlns.com/foaf/0.1/name": TITLE,
     "http://dbpedia.org/property/language": LANGUAGE,
-    "http://dbpedia.org/ontology/abstract": ABSTRACT,
     "http://dbpedia.org/property/country": COUNTRY
 }
 

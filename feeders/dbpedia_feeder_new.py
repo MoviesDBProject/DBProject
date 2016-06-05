@@ -5,6 +5,7 @@ from youtube_handler import *
 import urllib3
 import json
 import pprint
+import hashlib
 import sys
 counter = 0
 
@@ -114,7 +115,7 @@ def fetch_movie_info(film):
 			DIRECTORS: directors,
 			COUNTRY: country,
 			TITLE: film_name,
-			ID: hash(film_id) % ((sys.maxsize + 1) * 2)
+			ID: hash_func(film_id)
 		}
 	except Exception as e:
 		print str(e)
@@ -124,6 +125,9 @@ def fetch_movie_info(film):
 
 	for person in movie_info[DIRECTORS]:
 		directors_to_insert.append(fetch_person_info(person))
+
+	movie_info[ACTORS] = [hash_func(actor) for actor in movie_info[ACTORS]]
+	movie_info[DIRECTORS] = [hash_func(director) for director in movie_info[DIRECTORS]]
 
 	try:
 		omdb_result = get_omdb(film_name)
@@ -154,7 +158,8 @@ def fetch_movie_info(film):
 	print("==============================================")
 	return movie_info
 
-
+def hash_func(string):
+	return abs(hash(string)) % (10 ** 8)
 def get_omdb(film_title):
 	link_omdb = "http://www.omdbapi.com/?t={0}&plot=short&r=json".format(film_title.replace(" ","+"))
 	index_of = film_title.find("(")
@@ -182,16 +187,16 @@ def fetch_person_info(person_dbpedia):
 	if person_dbpedia.startswith(DBPEDIA_PREFIX):
 		id = person_dbpedia
 		name = person_dbpedia[person_dbpedia.rfind("/") + 1:].replace("_", " ")
-
-
-
+		index_of = name.find("(")
+		if index_of!=-1:
+			name = name[:index_of]
 	else:
 		name = person_dbpedia
 		id = name
 
 	person_info = {
 		NAME: name,
-		ID: hash(id) % ((sys.maxsize + 1) * 2)
+		ID: hash_func(id)
 	}
 
 	# pprint.pprint(person_info)

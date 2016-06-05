@@ -1,6 +1,48 @@
 var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
-MoviesApp.controller('mainController', function($scope,$http,$window) {
+MoviesApp.controller('mainController',['$scope','$http','$sce','$window', function($scope,$http,$sce,$window) {
+
+/*
+    $scope.$on('$routeChangeSuccess', function () {
+        var entries = ["actors","directors","languages","countries"];
+
+        entries.forEach(function (entry_name) {
+            $http({
+            url: "/get_" + entry_name + "/" ,
+            method: "GET",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+           })
+           .then(function successCallback(response) {
+               var response_data = JSON.stringify(response.data);
+               switch (entry_name) {
+                   case "actors" :
+                        $scope.actors = response_data;
+                       break;
+                   case "directors" :
+                        $scope.directors = response_data;
+                       break;
+                   case "languages" :
+                       $scope.languages = response_data;
+                       break;
+                   case "countries" :
+                       $scope.countries = response_data;
+                       break;
+                   default:
+                       break;
+               }
+
+           },
+           function errorCallback(response){
+               if (response.status == 404) {
+                   var landingUrl = "http://" + $window.location.host + "/404.html";
+                    $window.location.href = landingUrl;
+               }
+           })
+        })
+
+
+    });
+*/
 
     $scope.actors  = [
                         {name:"dan", year:1995, country: "Israel"},
@@ -45,26 +87,99 @@ MoviesApp.controller('mainController', function($scope,$http,$window) {
     $scope.languages = ["Hebrew","English","Arabic","French"];
 
 
+    /* Trailer and its description related functions */
+
+     $scope.disable_next_button = function(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
+        $scope.next_disabled = 1;
+    };
+
+    $scope.disable_previous_button = function(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
+        $scope.previous_disabled = 1;
+    };
+
+    $scope.enable_next_button = function(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary");
+        $scope.next_disabled = 0;
+    };
+
+    $scope.enable_previous_button = function(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary");
+        $scope.previous_disabled = 0;
+    };
+
+    $scope.click_next = function(){
+        $scope.show_item++;
+        if ($scope.show_item > 0)
+            $scope.enable_previous_button();
+        if ($scope.show_item == $scope.results_contents.length - 1)
+            $scope.disable_next_button();
+    };
+
+    $scope.click_previous = function() {
+        $scope.show_item--;
+        if ($scope.show_item == 0)
+           $scope.disable_previous_button();
+        if ($scope.show_item < $scope.results_contents.length - 1)
+            $scope.enable_next_button();
+    };
+
+
+
+    var results_element = document.getElementById("show_results");
+    results_table.setAttribute("border", "1");
+
+    $scope.results_cols = ["Actor", "Year", "Language"];
+    $scope.results_contents = [
+        {id:1, actor: "Dror", year: "1990", language: "Hebrew"},
+        {id:2, actor: "Tomer", year: "1990", language: "Hebrew"},
+        {id:3, actor: "Some actor", year: "2000", language: "English"}];
+
+
+    $scope.show_item = 0;
+    $scope.previous_disabled = 1;
+    $scope.next_disabled = 0;
+    if ($scope.results_contents.length < 2)
+        $scope.disable_next_button();
+    $scope.disable_previous_button();
+
+    // Create YouTube playlist
+    var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
+    var youtube_url_str = "https://www.youtube.com/embed/VIDEO_ID?playlist=";
+    for (var i = 0; i < youtube_id_list.length; i++){
+        youtube_url_str = youtube_url_str + youtube_id_list[i];
+        if (i < youtube_id_list.length - 1)
+            youtube_url_str = youtube_url_str + ",";
+    };
+    $scope.youtube_url = $sce.trustAsResourceUrl(youtube_url_str);
+
+    //document.getElementById("debug").innerHTML = $scope.results_cols.indexOf("Actor").toString();
 
 
     $scope.submit = function(){
 
         $http({
-            url: "/fetch_results",
+            url: "/fetch_results/",
             method: "POST",
             data: $scope.formData,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
-        .success(function(response){
-            console.log(response);
-        })
+        .then(function(response){
+            console.log(response.data);
+            //$scope.results_contents = response.data;
+            results_element.removeChild(document.getElementById("results_table"));
+            var results_table = document.createElement("table");
+            results_table.setAttribute("id", "results_table");
+            results_element.appendChild(results_table);
 
-
-
-
+        } , function errorCallback(response){
+               if (response.status == 404) {
+                   var landingUrl = "http://" + $window.location.host + "/404.html";
+                    $window.location.href = landingUrl;
+               }
+           })
     };
 
-
-
-});
+}]);
 

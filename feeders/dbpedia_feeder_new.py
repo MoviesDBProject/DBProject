@@ -6,6 +6,9 @@ import urllib2,json
 
 counter = 0
 
+# Movie id => movie url dbpedia
+# Actor id => if has page ==> page link dbpedia, else id is his name
+# The same for director
 
 def get_movies_from_dbpedia():
     films = set()
@@ -17,11 +20,26 @@ def get_movies_from_dbpedia():
 
         sparql.setQuery("""
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            SELECT DISTINCT ?film_title ?film_abstract
+            SELECT DISTINCT ?film_name
+            GROUP_CONCAT(DISTINCT ?film_actors ; SEPARATOR = "|")
+            GROUP_CONCAT(DISTINCT ?film_director ; SEPARATOR = "|")
+            ?film_country
             WHERE {
                 ?film_title rdf:type <http://dbpedia.org/ontology/Film> .
-                ?film_title rdfs:comment ?film_abstract
-                FILTER (langMatches(lang(?film_abstract),"en"))
+                ?film_title rdfs:label ?film_name .
+                optional{
+                   ?film_title dbp:starring ?film_actors .
+                }
+                optional{
+                   ?film_title dbp:director ?film_director .
+                }
+                optional{
+                   ?film_title dbp:country ?film_country
+                }
+
+                FILTER (langMatches(lang(?film_name),"en"))
+
+
             }LIMIT %s OFFSET %s
             """ % (end, start))
         print("[+]==== Getting movies from %d to %d ====[+]" %(start, end))
@@ -37,7 +55,7 @@ def get_movies_from_dbpedia():
                     try:
                         movie_info = fetch_movie_info(film_id)
                         movie_info[ABSTRACT] = film['film_abstract']['value']
-                        movie_info[WIKI_ID] = get_wiki_id(movie_info[TITLE])
+                        # movie_info[WIKI_ID] = get_wiki_id(movie_info[TITLE])
                         films_info.append(movie_info)
                         films.add(film_id)
                         print movie_info
@@ -132,7 +150,7 @@ def fetch_person_info(persons_urls):
             if BIRTH_PLACE in person_info and person_info[BIRTH_PLACE].startswith(DBPEDIA_PREFIX):
                 person_info[BIRTH_PLACE] = fetch_name_from_dbpedia_page(person_info[BIRTH_PLACE])
 
-            person_info[WIKI_ID] = get_wiki_id(person_info[NAME])
+            # person_info[WIKI_ID] = get_wiki_id(person_info[NAME])
             result.append(person_info)
         except:
             pass

@@ -32,6 +32,16 @@
 
                     <h4> Actors and Director Properties</h4>
 
+                     <p id="select_top_actors">
+
+                         <label>
+                               <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor"
+                                 ng-required="!formData.selected_actor">
+                              Select movies starring the top actors
+                         </label>
+
+                    </p>
+
                     <p id="select_actor_div">
                         <label for="select_actor">
                             choose actor:
@@ -42,40 +52,12 @@
 
                     </p>
 
-                    <p id="select_age">
-
-                        <label>
-                            Choose birth year of the movie's actors
-                        </label>
-                        <br>
-
-                        <select  ng-model="formData.selected_age" ng-disabled="formData.actor"
-                                 ng-required="!formData.selected_actor || !formData.selected_country"
-                                 ng-options="actor.year for actor in actors" form="preferences">
-                            <option value="" selected > Year </option>
-                        </select>
-                    </p>
-
-                    <p id="select_country">
-                        <label>
-                            choose the birth place of the film's actors
-                        </label>
-                        <br>
-
-                        <select ng-model="formData.actor_country" ng-disabled="formData.actor"
-                                ng-required="!formData.actor || !formData.actor_age"
-                                ng-options="actor.country for actor in actors" form="preferences" >
-
-                            <option value="" selected > Country </option>
-                        </select>
-
-                    </p>
                     <p id="select_director">
                         <label >
                             choose director:
                         </label>
                         <input type="text" class="form-control" ng-model="formData.director"
-                               ng-required="!formData.actor || !formData.actor_age || !formData.actor_country"
+                               ng-required="!formData.actor"
                                uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" >
                     </p>
 
@@ -121,6 +103,19 @@
                                uib-typeahead="language for language in languages | filter:$viewValue | limitTo:8">
                     </p>
 
+                    <p id="imdb">
+
+                        <p>
+                            <label for="imdb_rating">
+                                Film IMDb Rating
+                            </label>
+                        </p>
+
+                       <input id="imdb_rating" type="number" ng-model="formData.rating"  min="0" max="10"
+                              ng-required="!formData.max_likes || !formData.min_views">
+
+                    </p>
+
                     <p id="youtube_views">
 
                         <p>
@@ -128,20 +123,18 @@
                                 Minimal number of views in YouTube
                             </label>
                         </p>
-                        <input id="youtube_min_views" type="number" ng-model="formData.min_views" ng-required="!formData.max_likes">
+                        <input id="youtube_min_views" type="number" ng-model="formData.min_views"
+                               ng-required="!formData.max_likes || !formData.imdb_rating">
 
                     </p>
 
                     <p id="max_likes">
+                            <label>
 
-                        <span>
-                            <label for="youtube_max_likes">
+                                <input id="youtube_max_likes" type="checkbox" ng-model="formData.max_likes">
                                 Choose most popular film (by likes)
                             </label>
-                        </span>
-                        <span>
-                            <input id="youtube_max_likes" type="checkbox" ng-model="formData.max_likes">
-                        </span>
+
 
                     </p>
                 </div>
@@ -155,9 +148,84 @@
         </form>
 
     </div>
+<!--
+    <div id="show_results">
+        <table id="results_table">
 
-    <div id="trailers"></div>
+            <tr>
+                <td ng-repeat="col in results_cols">{{col}}</td>
+            </tr>
 
+            <tr ng-repeat="result in results_contents">
+                <td ng-if="results_cols.indexOf('Actor') != -1">{{result.actor}}</td>
+                <td>{{result.year}}</td>
+                <td>{{result.language}}</td>
+            </tr>
+
+        </table>
+
+        <br><br><span id="debug"></span><br>
+    </div>
+
+    <div id="trailers">
+        <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
+    </div>
+-->
+    <div id="show_results">
+        <table>
+
+            <tr>
+                <td>
+                    <div id="trailers">
+                        <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </td>
+                <td>
+                    <table id="results_table">
+                        <tr>
+                            <button id="previous" type="button" class="btn btn-primary" ng-click="previous_disabled || click_previous()">Previous</button>
+                            <button id="next" type="button" class="btn btn-primary" ng-click="next_disabled || click_next()">Next</button>
+                        </tr>
+                        <!--tr>
+                            <td ng-repeat="col in results_cols">{{col}}</td>
+                        </tr>
+
+                        <tr ng-repeat="result in results_contents" ng-show="show_item == $index">
+                            <td ng-if="results_cols.indexOf('Actor') != -1" >{{result.actor}}</td>
+                            <td ng-if="results_cols.indexOf('Year') != -1">{{result.year}}</td>
+                            <td ng-if="results_cols.indexOf('Language') != -1">{{result.language}}</td>
+                        </tr-->
+
+                        <tbody ng-repeat="result in results_contents" ng-show="show_item == $index">
+                            <tr ng-if="results_cols.indexOf('Actor') != -1">
+                                <td>
+                                    Actor: {{result.actor}}
+                                </td>
+                            </tr>
+                            <tr ng-if="results_cols.indexOf('Year') != -1">
+                                <td>
+                                    Year: {{result.year}}
+                                </td>
+                            </tr>
+                            <tr ng-if="results_cols.indexOf('Language') != -1">
+                                <td>
+                                    Language: {{result.language}}
+                                </td>
+                            </tr>
+                            <tr ng-if="results_cols.indexOf('Description') != -1">
+                                <td>
+                                    Description: {{result.description}}
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+        <br><br><span id="debug"></span><br>
+    </div>
 
 </div>
 

@@ -18,8 +18,12 @@ from django.contrib import admin
 from moviestats.queryHandler import *
 
 urlpatterns = [
-	url(r'^$', include('moviestats.urls')),
-	url(r'^admin/', admin.site.urls),
-	url(r'^fetch_results/', handle_query),
+    url(r'^$', include('moviestats.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^fetch_results/', handle_query),
+    url(r'^get_actors_list/', get_actors),
+    url(r'^get_directors_list/', get_directors),
+    url(r'^get_countries_list/', get_countries),
+    url(r'^get_language_list/', get_languages),
 
 ]

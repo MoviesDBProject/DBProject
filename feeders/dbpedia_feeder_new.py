@@ -7,6 +7,7 @@ import json
 import pprint
 import sys
 counter = 0
+from inserts import *
 
 # Movie id => movie url dbpedia
 # Actor id => if has page ==> page link dbpedia, else id is his name
@@ -81,6 +82,9 @@ def get_movies_from_dbpedia():
 				# print "Failed, Breaking"
 				print str(e)
 				continue
+			actors_insert(actors_to_insert)
+			directors_insert(directors_to_insert)
+			movies_insert(films_info)
 			# print("[+]==== Getting actors info ====[+]")
 			# actors_to_insert = fetch_person_info(actors_to_fetch)
 			# print("[+]==== Getting directors info ====[+]")

@@ -30,8 +30,8 @@ YOUTUBE = "youtube"
 WIKI_ID = 'wiki_id'
 ID = 'id'
 NA = 'N/A'
-ITERS = 10
-RANGE = 1000
+ITERS = 1
+RANGE = 5
 
 movieMapFromRdf = {
 

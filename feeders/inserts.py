@@ -9,15 +9,15 @@ import MySQLdb
 def actors_insert(actors_table):
     conn = MySQLdb.connect(host="localhost",
                            user="root",
-                           passwd="",
-                           db="dbproject")
+                           passwd="Baaf223",
+                           db="dbmysql03")
 
     cursor = conn.cursor()
 
     for actor in actors_table:
         try:
-            actor_id = actor[ID.tolower()]
-            actor_name = actor[NAME.tolower()]
+            actor_id = actor[ID.lower()]
+            actor_name = actor[NAME.lower()]
 
 
             ############################ ACTOR INSERTS  ###############################################
@@ -30,14 +30,20 @@ def actors_insert(actors_table):
                ON DUPLICATE KEY UPDATE
                                                  -- no need to update the PK
                    actor_id  = VALUES(actor_id),
-                   name   = VALUES(name),
+                   name   = VALUES(name);
                           """, (actor_id, actor_name)  # python variables
                            )
 
-        except:
-            print "askdjfhkjasjdflkasdfkl"
+        except Exception as e:
+            print e
 
-        conn.close()
+    cursor.execute(""" SELECT * FROM actors """)
+    data = cursor.fetchall()
+    for row in data:
+        print row[0], row[1]
+
+
+    conn.close()
 
 
 
@@ -45,8 +51,8 @@ def actors_insert(actors_table):
 def directors_insert(directors_table):
     conn = MySQLdb.connect(host="localhost",
                            user="root",
-                           passwd="",
-                           db="dbproject")
+                           passwd="Baaf223",
+                           db="dbmysql03")
 
     cursor = conn.cursor()
 
@@ -65,14 +71,14 @@ def directors_insert(directors_table):
                ON DUPLICATE KEY UPDATE
                                                  -- no need to update the PK
                    director_id  = VALUES(director_id),
-                   name   = VALUES(name),
+                   name   = VALUES(name);
                           """, (director_id, director_name)  # python variables
                            )
 
-        except:
-            print "askdjfhkjasjdflkasdfkl"
+        except Exception as e:
+            print e
 
-        conn.close()
+    conn.close()
 
 
 

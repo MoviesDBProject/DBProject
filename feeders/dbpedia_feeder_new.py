@@ -9,6 +9,7 @@ import hashlib
 import sys
 counter = 0
 from inserts import *
+import logging
 
 # Movie id => movie url dbpedia
 # Actor id => if has page ==> page link dbpedia, else id is his name
@@ -24,6 +25,8 @@ def get_movies_from_dbpedia():
 	global directors_to_fetch
 	global actors_to_insert
 	global directors_to_insert
+	logging.basicConfig(filename='feeder.log',level=logging.DEBUG)
+	logging.debug('[+]======= dbpedia feeder started ======[+]')
 	films = set()
 	films_info = []
 	fetched = 0
@@ -58,6 +61,7 @@ def get_movies_from_dbpedia():
             }LIMIT %s OFFSET %s
             """ % (end, start))
 		print("[+]==== Getting movies from %d to %d ====[+]" % (start, end))
+		logging.debug("[+]==== Getting movies from %d to %d ====[+]" % (start, end))
 		sparql.setReturnFormat(JSON)
 		results = sparql.query().convert()
 
@@ -72,7 +76,7 @@ def get_movies_from_dbpedia():
 						films_info.append(movie_info)
 						films.add(film_id)
 						fetched += 1
-						pprint.pprint(movie_info)
+						# pprint.pprint(movie_info)
 						print fetched
 					except Exception as e:
 						print str(e)
@@ -83,13 +87,13 @@ def get_movies_from_dbpedia():
 				# print "Failed, Breaking"
 				print str(e)
 				continue
-		actors_insert(actors_to_insert)
-		directors_insert(directors_to_insert)
-		movies_insert(films_info)
-			# print("[+]==== Getting actors info ====[+]")
-			# actors_to_insert = fetch_person_info(actors_to_fetch)
-			# print("[+]==== Getting directors info ====[+]")
-			# directors_to_insert = fetch_person_info(directors_to_fetch)
+		actor_in_db_count = actors_insert(actors_to_insert)
+		directors_in_db_count = directors_insert(directors_to_insert)
+		movies_in_db_count = movies_insert(films_info)
+		logging.debug("\n\n[+]========= Movies : {0}\n[+]========= Directors : {1}\n[+]========= Actors : {2} "
+                                             .format(movies_in_db_count,
+                                             directors_in_db_count,
+                                             actor_in_db_count))
 	print("[+]==== Fetched %d movies from DBPedia ====[+]" % len(films))
 	return films_info
 
@@ -145,6 +149,7 @@ def fetch_movie_info(film):
 		movie_info[OMDB_LANGUAGE.lower()] = omdb_result.get(OMDB_LANGUAGE,NA)
 		movie_info[OMDB_RUNTIME.lower()] = omdb_result.get(OMDB_RUNTIME,NA)
 		temp_run_time = movie_info[OMDB_RUNTIME.lower()]
+
 		if temp_run_time!=NA and 'min' in temp_run_time:
 			temp_run_time = temp_run_time.replace('min','')
 			temp_run_time = temp_run_time.strip()
@@ -173,8 +178,6 @@ def fetch_movie_info(film):
 		movie_info[YOUTUBE] = youtube_search(movie_info[TITLE] + " trailer")
 	except:
 		pass
-
-	print("==============================================")
 	return movie_info
 
 def hash_func(string):

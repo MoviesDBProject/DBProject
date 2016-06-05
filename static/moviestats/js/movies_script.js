@@ -1,8 +1,8 @@
 var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
-MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
+MoviesApp.controller('mainController',['$scope','$http','$sce','$window', function($scope,$http,$sce,$window) {
 
-
+/*
     $scope.$on('$routeChangeSuccess', function () {
         var entries = ["actors","directors","languages","countries"];
 
@@ -42,7 +42,7 @@ MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
 
 
     });
-
+*/
 
     $scope.actors  = [
                         {name:"dan", year:1995, country: "Israel"},
@@ -87,6 +87,44 @@ MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
     $scope.languages = ["Hebrew","English","Arabic","French"];
 
 
+    /* Trailer and its description related functions */
+
+     $scope.disable_next_button = function(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
+        $scope.next_disabled = 1;
+    };
+
+    $scope.disable_previous_button = function(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
+        $scope.previous_disabled = 1;
+    };
+
+    $scope.enable_next_button = function(){
+        document.getElementById("next").setAttribute("class", "btn btn-primary");
+        $scope.next_disabled = 0;
+    };
+
+    $scope.enable_previous_button = function(){
+        document.getElementById("previous").setAttribute("class", "btn btn-primary");
+        $scope.previous_disabled = 0;
+    };
+
+    $scope.click_next = function(){
+        $scope.show_item++;
+        if ($scope.show_item > 0)
+            $scope.enable_previous_button();
+        if ($scope.show_item == $scope.results_contents.length - 1)
+            $scope.disable_next_button();
+    };
+
+    $scope.click_previous = function() {
+        $scope.show_item--;
+        if ($scope.show_item == 0)
+           $scope.disable_previous_button();
+        if ($scope.show_item < $scope.results_contents.length - 1)
+            $scope.enable_next_button();
+    };
+
 
 
     var results_element = document.getElementById("show_results");
@@ -103,13 +141,13 @@ MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
     $scope.previous_disabled = 1;
     $scope.next_disabled = 0;
     if ($scope.results_contents.length < 2)
-        disable_next_button();
-    disable_previous_button();
+        $scope.disable_next_button();
+    $scope.disable_previous_button();
 
     // Create YouTube playlist
     var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
     var youtube_url_str = "https://www.youtube.com/embed/VIDEO_ID?playlist=";
-    for (i = 0; i < youtube_id_list.length; i++){
+    for (var i = 0; i < youtube_id_list.length; i++){
         youtube_url_str = youtube_url_str + youtube_id_list[i];
         if (i < youtube_id_list.length - 1)
             youtube_url_str = youtube_url_str + ",";
@@ -143,41 +181,5 @@ MoviesApp.controller('mainController', function($scope,$http,$on,$sce,$window) {
            })
     };
 
-    $scope.click_next = function(){
-        $scope.show_item++;
-        if ($scope.show_item > 0)
-            enable_previous_button();
-        if ($scope.show_item == $scope.results_contents.length - 1)
-            disable_next_button();
-    };
-
-    $scope.click_previous = function() {
-        $scope.show_item--;
-        if ($scope.show_item == 0)
-            disable_previous_button();
-        if ($scope.show_item < $scope.results_contents.length - 1)
-            enable_next_button();
-    };
-
-    $scope.disable_next_button = function(){
-        document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
-        $scope.next_disabled = 1;
-    };
-
-    $scope.disable_previous_button = function(){
-        document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
-        $scope.previous_disabled = 1;
-    };
-
-    $scope.enable_next_button = function(){
-        document.getElementById("next").setAttribute("class", "btn btn-primary");
-        $scope.next_disabled = 0;
-    };
-
-    $scope.enable_previous_button = function(){
-        document.getElementById("previous").setAttribute("class", "btn btn-primary");
-        $scope.previous_disabled = 0;
-    };
-
-});
+}]);
 

@@ -1,20 +1,20 @@
 from django.http import HttpResponse
 from django.db import connection
-# * Movies (Movie ID, title, Language ID, Country ID, Budget, Runtime,Last updated)
+# * Movies (Movie ID, title, Language ID, Country ID,Category ID, Last updated)
 #
-# * Actors (Actor ID, first name, last name, birthplace, DateOfBirth, last updated )
+# * Actors (Actor ID, first name, last name, last updated )
 #
 # * Director (Director ID, first name, last name, Movie ID)
 #
 # * MovieActor (Actor ID, Movie ID)
 #
-# * Movie_Descreption (Movie ID, title, description)
+# * Movie_Description (Movie ID, title, description)
 #
 # * Country (Country ID, name, last updated)
 #
 # * Language (Language ID, language)
 #
-# * Trailers (YouTube ID, title, Movie_ID, Category ID, views count, likes)
+# * Trailers (YouTube ID, title, Movie_ID, views count, likes)
 #
 # * Categories ( Category ID , Name)
 
@@ -28,8 +28,7 @@ def dictFetchall(cursor):
 def get_actors(request):
     cursor = connection.cursor()
 
-    actors_query = ''' SELECT DISTINCT first_name as actor_fname,last_name as actor_last_name,
-                              birthplace as actor_birth_place, DateOfBirth as actor_birth_date
+    actors_query = ''' SELECT DISTINCT first_name as actor_first_name,last_name as actor_last_name,
                        FROM Actors
                    '''
 

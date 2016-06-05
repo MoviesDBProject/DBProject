@@ -83,9 +83,9 @@ def get_movies_from_dbpedia():
 				# print "Failed, Breaking"
 				print str(e)
 				continue
-			actors_insert(actors_to_insert)
-			directors_insert(directors_to_insert)
-			movies_insert(films_info)
+		actors_insert(actors_to_insert)
+		directors_insert(directors_to_insert)
+		movies_insert(films_info)
 			# print("[+]==== Getting actors info ====[+]")
 			# actors_to_insert = fetch_person_info(actors_to_fetch)
 			# print("[+]==== Getting directors info ====[+]")
@@ -143,9 +143,16 @@ def fetch_movie_info(film):
 		movie_info[OMDB_IMDB_RATING.lower()] = omdb_result.get(OMDB_IMDB_RATING,NA)
 		movie_info[OMDB_LANGUAGE.lower()] = omdb_result.get(OMDB_LANGUAGE,NA)
 		movie_info[OMDB_RUNTIME.lower()] = omdb_result.get(OMDB_RUNTIME,NA)
+		temp_run_time = movie_info[OMDB_RUNTIME.lower()]
+		if temp_run_time!=NA and 'min' in temp_run_time:
+			temp_run_time = temp_run_time.replace('min','')
+			temp_run_time = temp_run_time.strip()
+			movie_info[OMDB_RUNTIME.lower()] = temp_run_time
 		imdb_genre = omdb_result.get(OMDB_GENRE,NA)
 		if imdb_genre !=NA:
 			imdb_genre = imdb_genre.split(',')
+			last = imdb_genre[len(imdb_genre) - 1]
+			imdb_genre[len(imdb_genre) - 1] = last.strip()
 			for i in imdb_genre:
 				i.replace(" ","")
 		else:

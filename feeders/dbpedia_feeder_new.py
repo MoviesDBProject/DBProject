@@ -86,7 +86,6 @@ def get_movies_from_dbpedia():
 			# actors_to_insert = fetch_person_info(actors_to_fetch)
 			# print("[+]==== Getting directors info ====[+]")
 			# directors_to_insert = fetch_person_info(directors_to_fetch)
-
 	print("[+]==== Fetched %d movies from DBPedia ====[+]" % len(films))
 	return films_info
 
@@ -125,6 +124,7 @@ def fetch_movie_info(film):
 
 	for person in movie_info[DIRECTORS]:
 		directors_to_insert.append(fetch_person_info(person))
+
 
 	movie_info[ACTORS] = [hash_func(actor) for actor in movie_info[ACTORS]]
 	movie_info[DIRECTORS] = [hash_func(director) for director in movie_info[DIRECTORS]]
@@ -190,6 +190,7 @@ def fetch_person_info(person_dbpedia):
 		index_of = name.find("(")
 		if index_of!=-1:
 			name = name[:index_of]
+			name.replace(' ','')
 	else:
 		name = person_dbpedia
 		id = name
@@ -199,8 +200,8 @@ def fetch_person_info(person_dbpedia):
 		ID: hash_func(id)
 	}
 
-	# pprint.pprint(person_info)
-	# print "====================================="
+	pprint.pprint(person_info)
+	print "====================================="
 
 	return person_info
 

@@ -2,7 +2,7 @@ var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 
 MoviesApp.controller('mainController',['$scope','$http','$sce','$window', function($scope,$http,$sce,$window) {
 
-/*
+
     $scope.$on('$routeChangeSuccess', function () {
         var entries = ["actors","directors","languages","countries"];
 
@@ -34,7 +34,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
            },
            function errorCallback(response){
                if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/404.html";
+                   var landingUrl = "http://" + $window.location.host + "/404";
                     $window.location.href = landingUrl;
                }
            })
@@ -42,7 +42,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
 
     });
-*/
+
 
     $scope.actors  = [
                         {name:"dan", year:1995, country: "Israel"},

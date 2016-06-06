@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.db import connection
+import json
 # * Movies (Movie ID, title, Language ID, Country ID,Category ID, Last updated)
 #
 # * Actors (Actor ID, first name, last name, last updated )
@@ -28,49 +29,50 @@ def dictFetchall(cursor):
 def get_actors(request):
     cursor = connection.cursor()
 
-    actors_query = ''' SELECT DISTINCT first_name as actor_first_name,last_name as actor_last_name,
-                       FROM Actors
+    actors_query = ''' SELECT DISTINCT actors.name as actor_name
+                       FROM actors
                    '''
 
     cursor.execute(actors_query)
     rows = dictFetchall(cursor)
 
-    return HttpResponse(rows)
+    return HttpResponse(json.dumps(rows))
 
 
 def get_directors(request):
     cursor = connection.cursor()
 
-    director_query = ''' SELECT DISTINCT first_name , last_name
-                       FROM Director
+    director_query = ''' SELECT DISTINCT director.name
+                       FROM director
                    '''
 
     cursor.execute(director_query)
-    rows = [{"director":(row.first_name + row.last_name} for row in dictFetchall(cursor)]
-    return HttpResponse(rows)
+    rows = dictFetchall(cursor)
+    return HttpResponse(json.dumps(rows))
 
 def get_languages(request):
 
     cursor = connection.cursor()
-    query = ''' SELECT DISTINCT language
-                         FROM Language
-                      '''
+    query = ''' SELECT DISTINCT language.language
+                         FROM language
+                '''
 
     cursor.execute(query)
     rows = cursor.fetchall()
-    return HttpResponse(rows)
+    return HttpResponse(json.dumps(rows))
 
 
 def get_countries(request):
 
     cursor = connection.cursor()
-    query = ''' SELECT DISTINCT name
-                         FROM Country
+    query = ''' SELECT DISTINCT country.name
+                         FROM country
                       '''
 
     cursor.execute(query)
     rows = cursor.fetchall()
-    return HttpResponse(rows)
+    return HttpResponse(json.dumps(rows))
+
 
 def handle_query(request):
     example_json = {"actor": "dan",

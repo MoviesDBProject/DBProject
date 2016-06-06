@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^get_directors_list/', get_directors),
     url(r'^get_countries_list/', get_countries),
     url(r'^get_language_list/', get_languages),
+    url(r'^404/', include('moviestats.urls')),
 
 ]

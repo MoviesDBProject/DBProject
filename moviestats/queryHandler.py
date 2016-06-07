@@ -66,6 +66,23 @@ def init_handler(request):
 
 @csrf_exempt
 def handle_query(request):
+
+    cursor = connection.cursor()
+
+    request_array = json.loads(request.body)
+
+    query = ""
+
+    if request_array['top_actors'] == True :
+        query = "SELECT youtube_id, title, rating, name
+                FROM top_actors ORDER BY rating DESC LIMIT 10"
+
+        cursor.execute(query)
+
+        rows = dictFetchall(cursor)
+
+        return HttpResponse(json.dumps(rows), content_type="application/json")
+
     example_json = {"actor": "dan",
                     "actor_birth_date": 1963,
                     "actor_birth_place": "USA",
@@ -75,8 +92,6 @@ def handle_query(request):
                     "min_views": "200000",
                     "sort": True
                     }
-
-    cursor = connection.cursor()
     cursor.execute(""" SELECT movie_url FROM trailers
  				       WHERE trailers.views_count > {0} JOIN
 						(SELECT actors.movie_id as sub_movie_id FROM actors
@@ -85,4 +100,6 @@ def handle_query(request):
 					   ON trailers.movie_id = sub_query.sub_movie_id;
 	                """.format(example_json["min_views"], example_json["actor"]))
     row = cursor.fetchall()
-    return HttpResponse("test")
+
+
+    return HttpResponse(json.dumps(rows), content_type="application/json")

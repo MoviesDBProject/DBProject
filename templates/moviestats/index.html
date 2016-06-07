@@ -47,7 +47,7 @@
                             choose actor:
                         </label>
 
-                        <input type="text" id="select_actor" class="form-control" ng-model="formData.actor" typeahead-editable='false'
+                        <input type="text" id="select_actor" class="form-control" ng-model="formData.actor"
                                uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8">
 
                     </p>
@@ -148,30 +148,8 @@
         </form>
 
     </div>
-<!--
-    <div id="show_results">
-        <table id="results_table">
 
-            <tr>
-                <td ng-repeat="col in results_cols">{{col}}</td>
-            </tr>
-
-            <tr ng-repeat="result in results_contents">
-                <td ng-if="results_cols.indexOf('Actor') != -1">{{result.actor}}</td>
-                <td>{{result.year}}</td>
-                <td>{{result.language}}</td>
-            </tr>
-
-        </table>
-
-        <br><br><span id="debug"></span><br>
-    </div>
-
-    <div id="trailers">
-        <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
-    </div>
--->
-    <div id="show_results">
+    <div id="show_results" ng-show="showResults">
         <table>
 
             <tr>
@@ -180,44 +158,51 @@
                         <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </td>
-                <td>
+                <td class="col-md-6">
                     <table id="results_table">
-                        <tr>
-                            <button id="previous" type="button" class="btn btn-primary" ng-click="previous_disabled || click_previous()">Previous</button>
-                            <button id="next" type="button" class="btn btn-primary" ng-click="next_disabled || click_next()">Next</button>
-                        </tr>
-                        <!--tr>
-                            <td ng-repeat="col in results_cols">{{col}}</td>
-                        </tr>
+                        <tr id="buttons">
+                            <td>
 
-                        <tr ng-repeat="result in results_contents" ng-show="show_item == $index">
-                            <td ng-if="results_cols.indexOf('Actor') != -1" >{{result.actor}}</td>
-                            <td ng-if="results_cols.indexOf('Year') != -1">{{result.year}}</td>
-                            <td ng-if="results_cols.indexOf('Language') != -1">{{result.language}}</td>
-                        </tr-->
+                                <button id="previous" type="button" class="btn btn-primary"
+                                        ng-click="previous_disabled || click_previous()">Previous</button>
 
-                        <tbody ng-repeat="result in results_contents" ng-show="show_item == $index">
-                            <tr ng-if="results_cols.indexOf('Actor') != -1">
-                                <td>
-                                    Actor: {{result.actor}}
-                                </td>
-                            </tr>
-                            <tr ng-if="results_cols.indexOf('Year') != -1">
-                                <td>
-                                    Year: {{result.year}}
-                                </td>
-                            </tr>
-                            <tr ng-if="results_cols.indexOf('Language') != -1">
-                                <td>
-                                    Language: {{result.language}}
-                                </td>
-                            </tr>
-                            <tr ng-if="results_cols.indexOf('Description') != -1">
-                                <td>
-                                    Description: {{result.description}}
-                                </td>
-                            </tr>
-                        </tbody>
+                                <button id="next" type="button" class="btn btn-primary"
+                                        ng-click="next_disabled || click_next()">Next</button>
+
+                            </td>
+                        </tr>
+                        <tr class="col-md-4">
+                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="50%">
+
+                                <tr id="titles">
+                                    <th>
+                                        Film name:
+                                    </th>
+                                    <th>
+                                        Starring actor:
+                                    </th>
+                                    <th>
+                                        Film IMDb Rating:
+                                    </th>
+
+                                </tr>
+                                <tr id="values">
+
+                                    <td>
+                                        {{result.name}}
+                                    </td>
+
+                                    <td>
+                                        {{result.actor}}
+                                    </td>
+
+                                    <td>
+                                         {{result.rating}}
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </tr>
 
                     </table>
                 </td>

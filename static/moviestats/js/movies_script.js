@@ -86,8 +86,62 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
     $scope.languages = ["Hebrew","English","Arabic","French"];
 
+    $scope.createYouTubePlaylist = function(youtube_id_list){
+        //var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
+        var youtube_url_str = "https://www.youtube.com/embed/VIDEO_ID?playlist=";
+        for (var i = 0; i < youtube_id_list.length; i++){
+            youtube_url_str = youtube_url_str + youtube_id_list[i];
+            if (i < youtube_id_list.length - 1) {
+                youtube_url_str += ",";
+            }
+        };
+        return $sce.trustAsResourceUrl(youtube_url_str);
+
+    };
+
+    $scope.showResults = true;
+    $scope.results_contents= [{'name':'Criminal','actor':"Gal Gadot", "rating":7, "youtube_id":"JNfRQ4NBjUU"},
+                              {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
+    $scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
+
+
+    $scope.submit = function(){
+
+        $http({
+            url: "/fetch_results/",
+            method: "POST",
+            data: $scope.formData,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(function(response){
+            //console.log(response.data);
+            $scope.results_contents = response.data;
+            var id_list = function(data) {
+                                var lst = [];
+                                for (var i=0 ; i<data.length;i++){
+                                    lst.push(data[i]["youtube_id"]);
+                                }
+                                return lst;
+                            }($scope.results_contents);
+            $scope.youtube_url = createYouTubePlaylist(id_list);
+            $scope.showResults = true;
+            /*
+            results_element.removeChild(document.getElementById("results_table"));
+            var results_table = document.createElement("table");
+            results_table.setAttribute("id", "results_table");
+            results_element.appendChild(results_table);
+            */
+
+        } , function errorCallback(response){
+               if (response.status == 404) {
+                   var landingUrl = "http://" + $window.location.host + "/404";
+                    $window.location.href = landingUrl;
+               }
+           })
+    };
 
     /* Trailer and its description related functions */
+
 
      $scope.disable_next_button = function(){
         document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
@@ -125,18 +179,6 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
             $scope.enable_next_button();
     };
 
-
-
-    var results_element = document.getElementById("show_results");
-    results_table.setAttribute("border", "1");
-
-    $scope.results_cols = ["Actor", "Year", "Language"];
-    $scope.results_contents = [
-        {id:1, actor: "Dror", year: "1990", language: "Hebrew"},
-        {id:2, actor: "Tomer", year: "1990", language: "Hebrew"},
-        {id:3, actor: "Some actor", year: "2000", language: "English"}];
-
-
     $scope.show_item = 0;
     $scope.previous_disabled = 1;
     $scope.next_disabled = 0;
@@ -144,42 +186,9 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
         $scope.disable_next_button();
     $scope.disable_previous_button();
 
-    // Create YouTube playlist
-    var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
-    var youtube_url_str = "https://www.youtube.com/embed/VIDEO_ID?playlist=";
-    for (var i = 0; i < youtube_id_list.length; i++){
-        youtube_url_str = youtube_url_str + youtube_id_list[i];
-        if (i < youtube_id_list.length - 1)
-            youtube_url_str = youtube_url_str + ",";
-    };
-    $scope.youtube_url = $sce.trustAsResourceUrl(youtube_url_str);
 
     //document.getElementById("debug").innerHTML = $scope.results_cols.indexOf("Actor").toString();
 
-
-    $scope.submit = function(){
-
-        $http({
-            url: "/fetch_results/",
-            method: "POST",
-            data: $scope.formData,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .then(function(response){
-            console.log(response.data);
-            //$scope.results_contents = response.data;
-            results_element.removeChild(document.getElementById("results_table"));
-            var results_table = document.createElement("table");
-            results_table.setAttribute("id", "results_table");
-            results_element.appendChild(results_table);
-
-        } , function errorCallback(response){
-               if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/404.html";
-                    $window.location.href = landingUrl;
-               }
-           })
-    };
 
 }]);
 

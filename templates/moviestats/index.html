@@ -20,8 +20,31 @@
 
 <body ng-controller="mainController" >
 
+<nav id="navbar" class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Movies Recommendation</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="/update">Update</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
 <div id="home">
-    <h1> Movies Recommendations </h1>
 
     <div id="prefer_form">
 
@@ -48,7 +71,7 @@
                         </label>
 
                         <input type="text" id="select_actor" class="form-control" ng-model="formData.actor"
-                               uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8">
+                               uib-typeahead="a.actor for a in actors | filter:$viewValue | limitTo:8">
 
                     </p>
 
@@ -58,7 +81,7 @@
                         </label>
                         <input type="text" class="form-control" ng-model="formData.director"
                                ng-required="!formData.actor"
-                               uib-typeahead="a.name for a in actors | filter:$viewValue | limitTo:8" >
+                               uib-typeahead="a.director for a in directors | filter:$viewValue | limitTo:8" >
                     </p>
 
 
@@ -75,7 +98,7 @@
                             Choose preferred genre :
                         </label>
                         <br>
-                        <select ng-model="formData.film_genre" ng-options="genre for genre in genres" form="preferences"
+                        <select ng-model="formData.film_genre" ng-options="x.genre for x in genres" form="preferences"
                                 ng-required = "!formData.film_location || !formData.film_language" >
 
                             <option value="" selected > Genres </option>
@@ -89,7 +112,7 @@
                         </label>
                         <input id="movie_location" type="text" class="form-control" ng-model="formData.film_location" maxlength="30"
                                ng-required = "!formData.film_genre || !formData.film_language"
-                               uib-typeahead="country for country in countries | filter:$viewValue | limitTo:8">
+                               uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8">
 
                     </p>
 
@@ -100,7 +123,7 @@
 
                         <input id="film_language" type="text" class="form-control" ng-model="formData.film_language" maxlength="30"
                                ng-required = "!formData.film_genre || !formData.film_location"
-                               uib-typeahead="language for language in languages | filter:$viewValue | limitTo:8">
+                               uib-typeahead="x.language for x in languages | filter:$viewValue | limitTo:8">
                     </p>
 
                     <p id="imdb">
@@ -155,7 +178,7 @@
             <tr>
                 <td>
                     <div id="trailers">
-                        <iframe width="720" height="405" src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="720" height="405" ng-src="{{youtube_url}}" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </td>
                 <td class="col-md-6">
@@ -171,8 +194,8 @@
 
                             </td>
                         </tr>
-                        <tr class="col-md-4">
-                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="50%">
+                        <tr class="col-md-6">
+                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="60%">
 
                                 <tr id="titles">
                                     <th>
@@ -189,15 +212,15 @@
                                 <tr id="values">
 
                                     <td>
-                                        {{result.name}}
+                                        <span ng-bind=result.name></span>
                                     </td>
 
                                     <td>
-                                        {{result.actor}}
+                                         <span ng-bind=result.actor></span>
                                     </td>
 
                                     <td>
-                                         {{result.rating}}
+                                         <span ng-bind=result.rating></span>
                                     </td>
                                 </tr>
 

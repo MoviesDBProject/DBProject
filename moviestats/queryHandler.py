@@ -1,23 +1,8 @@
 from django.http import HttpResponse
 from django.db import connection
 import json
-# * Movies (Movie ID, title, Language ID, Country ID,Category ID, Last updated)
-#
-# * Actors (Actor ID, first name, last name, last updated )
-#
-# * Director (Director ID, first name, last name, Movie ID)
-#
-# * MovieActor (Actor ID, Movie ID)
-#
-# * Movie_Description (Movie ID, title, description)
-#
-# * Country (Country ID, name, last updated)
-#
-# * Language (Language ID, language)
-#
-# * Trailers (YouTube ID, title, Movie_ID, views count, likes)
-#
-# * Categories ( Category ID , Name)
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 def dictFetchall(cursor):
@@ -26,54 +11,60 @@ def dictFetchall(cursor):
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 
-def get_actors(request):
+@csrf_exempt
+def init_handler(request):
     cursor = connection.cursor()
+    
+    body = json.loads(request.body)
+    
+    if body['entry'] == 'actors' or body['entry'] == 'directors' :
+        query = ''' SELECT DISTINCT name as %s
+                       FROM %s
+                   ''' % (body['entry'].strip('s'),body['entry'])
+        
+        cursor.execute(query)
+        rows = dictFetchall(cursor)
+        
+    elif body['entry'] == 'genres' :
+        query = ''' SELECT DISTINCT genre
+                    FROM %s
+                   ''' % body['entry']
+        cursor.execute(query)
+        rows = dictFetchall(cursor)
+                   
+    else :
+        query = ''' SELECT DISTINCT %s
+                    FROM %s
+                 ''' % (body['entry'],body['entry'])
+        cursor.execute(query)
+        if body['entry'] == 'language' :
+            lang_set = set()
+            row = cursor.fetchone()
+            while row is not None:
+                r = str(row).replace(' ','').strip(')').strip('(').strip('u')
+                r = r.replace('\x22', '').replace('\x27','').split(',')
+                
+                lang_set.update(r)
+                row = cursor.fetchone()
+            rows = [] 
+            for row in list(lang_set) :
+                tmp_dict = dict()
+                tmp_dict['language']= row
+                rows.append(tmp_dict)
+           
+        else :
+            rows = dictFetchall(cursor)
+            
+     
 
-    actors_query = ''' SELECT DISTINCT actors.name as actor_name
-                       FROM actors
-                   '''
-
-    cursor.execute(actors_query)
-    rows = dictFetchall(cursor)
-
-    return HttpResponse(json.dumps(rows))
+        
+  
+    return HttpResponse(json.dumps(rows), content_type="application/json")
 
 
-def get_directors(request):
-    cursor = connection.cursor()
-
-    director_query = ''' SELECT DISTINCT director.name
-                       FROM director
-                   '''
-
-    cursor.execute(director_query)
-    rows = dictFetchall(cursor)
-    return HttpResponse(json.dumps(rows))
-
-def get_languages(request):
-
-    cursor = connection.cursor()
-    query = ''' SELECT DISTINCT language.language
-                         FROM language
-                '''
-
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    return HttpResponse(json.dumps(rows))
 
 
-def get_countries(request):
-
-    cursor = connection.cursor()
-    query = ''' SELECT DISTINCT country.name
-                         FROM country
-                      '''
-
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    return HttpResponse(json.dumps(rows))
-
-
+@csrf_exempt
 def handle_query(request):
     example_json = {"actor": "dan",
                     "actor_birth_date": 1963,

@@ -86,51 +86,51 @@ def handle_query(request):
 
         return HttpResponse(json.dumps(rows), content_type="application/json")
 
-    # Creating query with search paramter
-    query = "SELECT selected_movie.title, selected_movie.rating, selected_movie.actor, selected_movie.director,
-            selected_movie.genre, selected_movie.country, selected_movie.language, trailers.youtube_id, trailers.view_count, "
+    # Creating query with search parameter
+    query = """SELECT selected_movie.title, selected_movie.rating, selected_movie.actor, selected_movie.director,
+            selected_movie.genre, selected_movie.country, selected_movie.language, trailers.youtube_id, trailers.view_count, """
 
     if request_array['max_likes'] == True :
         query += "MAX(trailers.likes) "
     else :
         query += "trailers.likes "
 
-    query += "FROM trailers JOIN (SELECT movies.title, movies.rating, selected_actor.actor, selected_director.director,
+    query += """FROM trailers JOIN (SELECT movies.title, movies.rating, selected_actor.actor, selected_director.director,
                 selected_genre.genre, selected_country.country, selected_language.language, movies.movie_id FROM movies
                 JOIN (SELECT actors.name AS actor, movie_actor.movie_id
-                FROM actors JOIN movie_actor ON actors.actor_id = movie_actor.actor_id "
+                FROM actors JOIN movie_actor ON actors.actor_id = movie_actor.actor_id """
 
     if request_array['actor'] != None :
         add_to_query = "WHERE actors.name = '{}'".format(request_array['actor'])
         query += add_to_query
 
-    query += ") AS selected_actor ON movies.movie_id = selected_actor.movie_id
+    query += """) AS selected_actor ON movies.movie_id = selected_actor.movie_id
                 JOIN (SELECT directors.name AS director, movie_director.movie_id
-                FROM directors JOIN movie_director ON directors.director_id = movie_director.director_id "
+                FROM directors JOIN movie_director ON directors.director_id = movie_director.director_id """
 
     if request_array['director'] != None :
         add_to_query = "WHERE directors.name = '{}'".format(request_array['director'])
         query += add_to_query
 
-    query += ") AS selected_director ON movies.movie_id = selected_director.movie_id
+    query += """) AS selected_director ON movies.movie_id = selected_director.movie_id
                 JOIN (SELECT genres.genre, movie_genre.movie_id
-              	FROM genres JOIN movie_genre ON genres.genre_id = movie_genre.genre_id "
+              	FROM genres JOIN movie_genre ON genres.genre_id = movie_genre.genre_id """
 
     if request_array['film_genre'] != None :
         add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre'])
         query += add_to_query
 
-    query += ") AS selected_genre ON movies.movie_id = selected_genre.movie_id
+    query += """) AS selected_genre ON movies.movie_id = selected_genre.movie_id
                 JOIN (SELECT country.country_id, country.country
-              	FROM country "
+              	FROM country """
 
     if request_array['film_location'] != None :
         add_to_query = "WHERE country.country = '{}'".format(request_array['film_location'])
         query += add_to_query
 
-    query += ") AS selected_country ON selected_country.country_id = movies.country_id
+    query += """) AS selected_country ON selected_country.country_id = movies.country_id
                 JOIN (SELECT language.language_id, language.language
-                FROM language "
+                FROM language """
 
     if request_array['film_language'] != None :
         add_to_query = "WHERE language.language = '{}'".format(request_array['film_language'])

@@ -4,6 +4,23 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
 
 
+    $scope.update = function(){
+        /*
+        $http({
+            url: "/update/" ,
+            method: "GET",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+           })
+            .then(function (response) {
+                if (response.data.status == "OK") {
+                    $window.alert("Update Request sent. Updating DB.");
+                }
+            })
+        */
+        $window.alert("Update Request sent. Updating DB.");
+
+    }
+
     $scope.init = function(){
         var entries = ["actors","directors","language","country","genres"];
 

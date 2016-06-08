@@ -84,6 +84,11 @@ def handle_query(request):
 
         rows = dictFetchall(cursor)
 
+        # correcting decimal type to float(jsonable type)
+        for row in rows:
+            if row['rating'] is not None:
+                row['rating'] = float(row['rating'])
+
         return HttpResponse(json.dumps(rows), content_type="application/json")
 
     # Creating query with search parameter
@@ -100,7 +105,7 @@ def handle_query(request):
                 JOIN (SELECT actors.name AS actor, movie_actor.movie_id
                 FROM actors JOIN movie_actor ON actors.actor_id = movie_actor.actor_id """
 
-    if request_array['actor'] != None :
+    if request_array['actor'] is not None :
         add_to_query = "WHERE actors.name = '{}'".format(request_array['actor'])
         query += add_to_query
 
@@ -108,7 +113,7 @@ def handle_query(request):
                 JOIN (SELECT directors.name AS director, movie_director.movie_id
                 FROM directors JOIN movie_director ON directors.director_id = movie_director.director_id """
 
-    if request_array['director'] != None :
+    if request_array['director'] is not None :
         add_to_query = "WHERE directors.name = '{}'".format(request_array['director'])
         query += add_to_query
 
@@ -116,7 +121,7 @@ def handle_query(request):
                 JOIN (SELECT genres.genre, movie_genre.movie_id
               	FROM genres JOIN movie_genre ON genres.genre_id = movie_genre.genre_id """
 
-    if request_array['film_genre'] != None :
+    if request_array['film_genre'] is not None :
         add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre'])
         query += add_to_query
 
@@ -124,7 +129,7 @@ def handle_query(request):
                 JOIN (SELECT country.country_id, country.country
               	FROM country """
 
-    if request_array['film_location'] != None :
+    if request_array['film_location'] is not None :
         add_to_query = "WHERE country.country = '{}'".format(request_array['film_location'])
         query += add_to_query
 
@@ -132,19 +137,19 @@ def handle_query(request):
                 JOIN (SELECT language.language_id, language.language
                 FROM language """
 
-    if request_array['film_language'] != None :
+    if request_array['film_language'] is not None :
         add_to_query = "WHERE language.language = '{}'".format(request_array['film_language'])
         query += add_to_query
 
     query += ") AS selected_language ON selected_language.language_id = movies.language_id "
 
-    if request_array['rating'] != None :
+    if request_array['rating'] is not None :
         add_to_query = "WHERE movies.rating > {}".format(request_array['rating'])
         query += add_to_query
 
     query += ") AS selected_movie ON trailers.movie_id = selected_movie.movie_id "
 
-    if request_array['min_views'] != None :
+    if request_array['min_views'] is not None :
         add_to_query = "WHERE trailers.view_count > {} ".format(request_array['min_views'])
         query += add_to_query
 
@@ -157,5 +162,10 @@ def handle_query(request):
     cursor.execute(query)
 
     rows = dictFetchall(cursor)
+
+    # correcting decimal type to float(jsonable type)
+    for row in rows:
+        if row['rating'] is not None:
+            row['rating'] = float(row['rating'])
 
     return HttpResponse(json.dumps(rows), content_type="application/json")

@@ -5,7 +5,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
 
     $scope.update = function(){
-        /*
+
         $http({
             url: "/update/" ,
             method: "GET",
@@ -16,10 +16,8 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
                     $window.alert("Update Request sent. Updating DB.");
                 }
             })
-        */
-        $window.alert("Update Request sent. Updating DB.");
 
-    }
+    };
 
     $scope.init = function(){
         var entries = ["actors","directors","language","country","genres"];
@@ -86,7 +84,6 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .then(function(response){
-            //console.log(response.data);
             $scope.results_contents = response.data;
             var id_list = function(data) {
                                 var lst = [];
@@ -118,8 +115,11 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     $scope.showResults = true;
     $scope.results_contents= [{'name':'Criminal','actor':"Gal Gadot", "rating":7, "youtube_id":"JNfRQ4NBjUU"},
                               {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
+
+
     $scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
 
+    document.getElementById('youtube_iframe').src = $scope.youtube_url;
 
 
      $scope.disable_next_button = function(){

@@ -45,7 +45,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
            })
         }};
 
-    //$scope.init();
+    $scope.init();
 
     $scope.createYouTubePlaylist = function(youtube_id_list){
         //var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];

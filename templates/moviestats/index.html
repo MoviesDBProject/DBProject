@@ -99,19 +99,20 @@
                         </label>
                         <br>
                         <select ng-model="formData.film_genre" ng-options="x.genre for x in genres" form="preferences"
-                                ng-required = "!formData.film_location && !formData.film_language" ng-disabled="formData.top_actors">
+                                ng-required = "!formData.film_location && !formData.film_language && !formData.rating"
+                                 ng-disabled="formData.top_actors">
 
                             <option value="" selected > Genres </option>
                         </select>
                     </p>
 
                     <p id="select_movie_location">
-
+   
                         <label for="movie_location">
                             Film Location
                         </label>
                         <input id="movie_location" type="text" class="form-control" ng-model="formData.film_location" maxlength="30"
-                               ng-required = "!formData.film_language"
+                               ng-required = "!formData.film_language && !formData.film_genre &!formData.rating"
                                uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors">
 
                     </p>
@@ -149,7 +150,7 @@
                                ng-required="!formData.imdb_rating && !formData.film_genre" ng-disabled="formData.top_actors">
 
                     </p>
-5
+
                     <p id="max_likes">
                             <label>
 
@@ -163,7 +164,7 @@
                 </div>
 
                 <div id="submit_result">
-                    <input type="submit" value="Show Trailers" class="btn btn-primary" >
+                    <input type="submit" ng-disabled="showResults" value="Show Trailers" class="btn btn-primary" >
                 </div>
 
             </div>
@@ -187,10 +188,11 @@
                             <td>
 
                                 <button id="previous" type="button" class="btn btn-primary"
-                                        ng-click="previous_disabled || click_previous()">Previous</button>
+                                        ng-disabled="show_item == 0" ng-click="click_previous()">Previous</button>
 
                                 <button id="next" type="button" class="btn btn-primary"
-                                        ng-click="next_disabled || click_next()">Next</button>
+													ng-disabled="show_item == ret_length-1"                                        
+                                        ng-click="click_next()">Next</button>
 
                             </td>
                         </tr>
@@ -249,6 +251,10 @@
             </tr>
 
         </table>
+        
+        <div>
+           <h2> <a href="/"> Make another search</a></h2>
+        </div>
     </div>
 
 </div>

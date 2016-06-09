@@ -3,7 +3,6 @@ var MoviesApp = angular.module('MoviesApp', ['ui.bootstrap']);
 MoviesApp.controller('mainController',['$scope','$http','$sce','$window', function($scope,$http,$sce,$window) {
 
 
-
     $scope.update = function(){
 
         $http({
@@ -87,6 +86,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
         })
         .then(function(response){
             $scope.results_contents = response.data; 
+            $scope.ret_length = $scope.results_contents.length
             console.log(response.data)
             if (response.data.length === 0) {
                 $scope.disable_next_button();
@@ -125,60 +125,22 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     
     
     $scope.showResults = false;
-    //$scope.results_contents= [{'name':'Criminal','actor':"Gal Gadot", "rating":7, "youtube_id":"JNfRQ4NBjUU"},
-    //                {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
-
     $scope.results_contents=[];
-    //$scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
+    $scope.ret_length;
 
-    //document.getElementById('youtube_iframe').src = $scope.youtube_url;
-
-
-     $scope.disable_next_button = function(){
-        document.getElementById("next").setAttribute("class", "btn btn-primary disabled");
-        $scope.next_disabled = 1;
-    };
-
-    $scope.disable_previous_button = function(){
-        document.getElementById("previous").setAttribute("class", "btn btn-primary disabled");
-        $scope.previous_disabled = 1;
-    };
-
-    $scope.enable_next_button = function(){
-        document.getElementById("next").setAttribute("class", "btn btn-primary");
-        $scope.next_disabled = 0;
-    };
-
-    $scope.enable_previous_button = function(){
-        document.getElementById("previous").setAttribute("class", "btn btn-primary");
-        $scope.previous_disabled = 0;
-    };
 
     $scope.click_next = function(){
         $scope.show_item++;
-        if ($scope.show_item > 0)
-            $scope.enable_previous_button();
-        if ($scope.show_item == $scope.results_contents.length - 1)
-            $scope.disable_next_button();
     };
 
     $scope.click_previous = function() {
         $scope.show_item--;
-        if ($scope.show_item == 0)
-           $scope.disable_previous_button();
-        if ($scope.show_item < $scope.results_contents.length - 1)
-            $scope.enable_next_button();
     };
 
     $scope.show_item = 0;
     $scope.previous_disabled = 1;
     $scope.next_disabled = 0;
-    if ($scope.results_contents.length < 2)
-        $scope.disable_next_button();
-    $scope.disable_previous_button();
 
-
-    //document.getElementById("debug").innerHTML = $scope.results_cols.indexOf("Actor").toString();
 
 
 }]);

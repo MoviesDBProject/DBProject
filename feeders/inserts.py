@@ -1,16 +1,15 @@
-
-from pycountry import *
-from dbpedia_feeder import *
-
 import MySQLdb
+from dbpedia_feeder import *
+from pycountry import *
+
 
 
 
 def actors_insert(actors_table):
-    conn = MySQLdb.connect(host="localhost",
-                           user="root",
-                           passwd="Baaf223",
-                           db="dbmysql03")
+    conn = MySQLdb.connect(host="mysqlsrv.cs.tau.ac.il",
+                           user="DbMysql03",
+                           passwd="DbMysql03",
+                           db="DbMysql03")
 
     cursor = conn.cursor()
 
@@ -49,10 +48,10 @@ def actors_insert(actors_table):
 
 
 def directors_insert(directors_table):
-    conn = MySQLdb.connect(host="localhost",
-                           user="root",
-                           passwd="Baaf223",
-                           db="dbmysql03")
+    conn = MySQLdb.connect(host="mysqlsrv.cs.tau.ac.il",
+                           user="DbMysql03",
+                           passwd="DbMysql03",
+                           db="DbMysql03")
 
     cursor = conn.cursor()
 
@@ -85,10 +84,10 @@ def directors_insert(directors_table):
 
 
 def movies_insert(movies_table):
-    conn = MySQLdb.connect(host="localhost",
-                           user="root",
-                           passwd="",
-                           db="dbproject")
+    conn = MySQLdb.connect(host="mysqlsrv.cs.tau.ac.il",
+                           user="DbMysql03",
+                           passwd="DbMysql03",
+                           db="DbMysql03")
 
     cursor = conn.cursor()
 

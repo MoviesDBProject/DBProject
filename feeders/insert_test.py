@@ -1,9 +1,8 @@
 # Server Connection to MySQL:
 
-from pycountry import *
-from dbpedia_feeder import *
-
 import MySQLdb
+from dbpedia_feeder import *
+from pycountry import *
 
 # conn = MySQLdb.connect(host= "localhost",
 #                  user="root",

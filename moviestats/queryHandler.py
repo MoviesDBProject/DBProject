@@ -68,6 +68,8 @@ def init_handler(request):
 		else:
 			rows = dictFetchall(cursor)
 
+	connection.close()
+
 	return HttpResponse(json.dumps(rows), content_type="application/json")
 
 
@@ -199,6 +201,8 @@ def handle_query(request):
 	for row in rows:
 		if row['rating'] is not None:
 			row['rating'] = float(row['rating'])
+
+	connection.close()
 
 	return HttpResponse(json.dumps(rows), content_type="application/json")
 

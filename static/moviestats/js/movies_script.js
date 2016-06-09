@@ -5,15 +5,19 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
     $scope.update = function(){
 
+
         $http({
             url: "/update/" ,
-            method: "GET",
+            method: "POST",
+            data: {'token':'DbMysql03'},
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
            })
             .then(function (response) {
-                if (response.data.status == "OK") {
-                    $window.alert("Update Request sent. Updating DB.");
+                if (response.data['status'] == "OK") {
+                    window.alert("Update Request sent. Updating DB.");
                 }
+            },  function(response) {
+                window.alert("Something went wrong.Update not done.")
             })
 
     };
@@ -53,7 +57,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
            },
            function errorCallback(response){
                if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/404";
+                   var landingUrl = "http://" + $window.location.host + "/not_found/";
                     $window.location.href = landingUrl;
                }
            })
@@ -115,7 +119,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
 
         } , function errorCallback(response){
                if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/404";
+                   var landingUrl = "http://" + $window.location.host + "/not_found/";
                     $window.location.href = landingUrl;
                }
            })

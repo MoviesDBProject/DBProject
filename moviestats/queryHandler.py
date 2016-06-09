@@ -193,7 +193,10 @@ def handle_query(request):
         add_to_query = "WHERE trailers.view_count >= {} ".format(request_array['min_views'])
         query += add_to_query
 
-    query += "GROUP BY selected_movie.movie_id;"
+    if 'max_likes' in request_array and request_array['max_likes'] is not None :
+        query += "GROUP BY trailers.likes;"
+    else:
+        query += "GROUP BY selected_movie.movie_id;"
 
 
     cursor.execute(query)

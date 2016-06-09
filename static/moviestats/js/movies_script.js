@@ -60,7 +60,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
            })
         }};
 
-    $scope.init();
+    //$scope.init();
 
     $scope.createYouTubePlaylist = function(youtube_id_list){
         //var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
@@ -85,21 +85,20 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
         })
         .then(function(response){
             $scope.results_contents = response.data;
-            var id_list = function(data) {
+            if (response.data.length === 0) {
+            	document.getElementById('show_results').innerHTML = "<h1>No corresponding movies found.</h1><h2><a href='/'>Try another search.</a></h2>"
+            } 
+            else {
+            	var id_list = function(data) {
                                 var lst = [];
                                 for (var i=0 ; i<data.length;i++){
                                     lst.push(data[i]["youtube_id"]);
                                 }
                                 return lst;
                             }($scope.results_contents);
-            $scope.youtube_url = createYouTubePlaylist(id_list);
-            $scope.showResults = true;
-            /*
-            results_element.removeChild(document.getElementById("results_table"));
-            var results_table = document.createElement("table");
-            results_table.setAttribute("id", "results_table");
-            results_element.appendChild(results_table);
-            */
+            	$scope.youtube_url = createYouTubePlaylist(id_list);
+         	}
+         	$scope.showResults = true;
 
         } , function errorCallback(response){
                if (response.status == 404) {
@@ -112,14 +111,14 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     /* Trailer and its description related functions */
     
     
-    $scope.showResults = true;
-    $scope.results_contents= [{'name':'Criminal','actor':"Gal Gadot", "rating":7, "youtube_id":"JNfRQ4NBjUU"},
-                              {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
+    $scope.showResults = false;
+    //$scope.results_contents= [{'name':'Criminal','actor':"Gal Gadot", "rating":7, "youtube_id":"JNfRQ4NBjUU"},
+    //                {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
 
-
+    $scope.results_contents=[];
     $scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
 
-    document.getElementById('youtube_iframe').src = $scope.youtube_url;
+    //document.getElementById('youtube_iframe').src = $scope.youtube_url;
 
 
      $scope.disable_next_button = function(){

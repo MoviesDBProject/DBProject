@@ -149,15 +149,15 @@ def handle_query(request):
 
     #add a filtering where clause on film genre if requested
     if 'film_genre' in request_array and request_array['film_genre'] is not None :
-        add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre'])
+        add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre']['genre'])
         query += add_to_query
 
     query += """
-                ) AS selected_genre ON movies.movie_id = selected_genre.movie_id
+                )AS selected_genre ON movies.movie_id = selected_genre.movie_id
                 JOIN (SELECT country.country_id, country.country
               	       FROM country
               """
-
+ 
     #add a filtering where clause on country if requested
     if 'film_location' in request_array and request_array['film_location'] is not None :
         add_to_query = "WHERE country.country = '{}'".format(request_array['film_location'])

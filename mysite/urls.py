@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^fetch_results/', handle_query),
     url(r'^init_data/', init_handler),
+	url(r'^update/', update_db),
     url(r'^not_found/', include('moviestats.urls')),
     url(r'^$', include('moviestats.urls')),
 

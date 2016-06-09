@@ -89,9 +89,18 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
             $scope.results_contents = response.data; 
             console.log(response.data)
             if (response.data.length === 0) {
+                $scope.disable_next_button();
+                $scope.disable_previous_button();
             	document.getElementById('show_results').innerHTML = "<h1>No corresponding movies found.</h1><h2><a href='/'>Try another search.</a></h2>"
             } 
             else {
+                $scope.show_item = 0;
+                if ($scope.results_contents.length < 2)
+                    $scope.disable_next_button()
+                else
+                    $scope.enable_next_button();
+                $scope.disable_previous_button();
+
             	var id_list = function(data) {
                                 var lst = [];
                                 for (var i=0 ; i<data.length;i++){
@@ -120,7 +129,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     //                {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
 
     $scope.results_contents=[];
-    $scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
+    //$scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
 
     //document.getElementById('youtube_iframe').src = $scope.youtube_url;
 

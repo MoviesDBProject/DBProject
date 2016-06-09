@@ -99,7 +99,7 @@
                         </label>
                         <br>
                         <select ng-model="formData.film_genre" ng-options="x.genre for x in genres" form="preferences"
-                                ng-required = "!formData.film_location || !formData.film_language" ng-disabled="formData.top_actors">
+                                ng-required = "!formData.film_location && !formData.film_language" ng-disabled="formData.top_actors">
 
                             <option value="" selected > Genres </option>
                         </select>
@@ -111,7 +111,7 @@
                             Film Location
                         </label>
                         <input id="movie_location" type="text" class="form-control" ng-model="formData.film_location" maxlength="30"
-                               ng-required = "!formData.film_genre || !formData.film_language"
+                               ng-required = "!formData.film_language"
                                uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors">
 
                     </p>
@@ -122,7 +122,6 @@
                         </label>
 
                         <input id="film_language" type="text" class="form-control" ng-model="formData.film_language" maxlength="30"
-                               ng-required = "!formData.film_location"
                                uib-typeahead="x.language for x in languages | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors">
                     </p>
 
@@ -135,7 +134,7 @@
                         </p>
 
                        <input id="imdb_rating" type="number" ng-model="formData.rating"  min="0" max="10"
-                              ng-required="!formData.max_likes || !formData.min_views" ng-disabled="formData.top_actors">
+                              ng-disabled="formData.top_actors">
 
                     </p>
 
@@ -147,14 +146,15 @@
                             </label>
                         </p>
                         <input id="youtube_min_views" type="number" ng-model="formData.min_views"
-                               ng-required="!formData.imdb_rating" ng-disabled="formData.top_actors">
+                               ng-required="!formData.imdb_rating && !formData.film_genre" ng-disabled="formData.top_actors">
 
                     </p>
 5
                     <p id="max_likes">
                             <label>
 
-                                <input id="youtube_max_likes" type="checkbox" ng-model="formData.max_likes" ng-disabled="formData.top_actors">
+                                <input id="youtube_max_likes" type="checkbox" ng-model="formData.max_likes"
+                                 ng-disabled="formData.top_actors">
                                 Choose most popular film (by likes)
                             </label>
 

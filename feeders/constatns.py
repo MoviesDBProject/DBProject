@@ -28,10 +28,11 @@ NAME = "name"
 DBPEDIA_PREFIX = "http://dbpedia"
 YOUTUBE = "youtube"
 WIKI_ID = 'wiki_id'
+START = 15000
 ID = 'id'
 NA = 'N/A'
 ITERS = 1
-RANGE = 5
+RANGE = 1000
 
 movieMapFromRdf = {
 

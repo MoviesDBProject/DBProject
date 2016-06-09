@@ -13,9 +13,11 @@ def dictFetchall(cursor):
 def rewrite_as_multiple_words(lang) :
 	 words = re.findall('[A-Z][^A-Z]*',lang)
 	 lang = ""
-	 for i in range(len(a)-1):
-	     lang += "%s " % words[i] 
-	 lang+= words[-1]
+	 for i in range(len(words)):
+	     if i == len(words)-1 :
+	         lang += "%s" % words[i]
+	     else :	
+	         lang += "%s " % words[i] 
 	 return lang    	  
 
 
@@ -52,12 +54,13 @@ def init_handler(request):
             while row is not None:
                 r = str(row).replace(' ','').strip(')').strip('(').strip('u')
                 r = r.replace('\x22', '').replace('\x27','').split(',')
-                r = rewrite_as_multiple_words(r)
+
                 lang_set.update(r)
                 row = cursor.fetchone()
             rows = [] 
             for row in list(lang_set) :
                 tmp_dict = dict()
+                row = rewrite_as_multiple_words(row)
                 tmp_dict['language']= row
                 rows.append(tmp_dict)
            
@@ -83,8 +86,8 @@ def handle_query(request):
     query = ""
 
     # Top actors
-    if request_array['top_actors'] == True :
-        query = """SELECT youtube_id, title, rating, name
+    if 'top_actors' in request_array and request_array['top_actors'] is not None :
+        query = """SELECT youtube_id, title, rating, name as actor
                 FROM top_actors
                 ORDER BY rating DESC
                 LIMIT 10"""
@@ -102,11 +105,10 @@ def handle_query(request):
 
     # Creating query with search parameter
     query = """SELECT selected_movie.title, selected_movie.rating, selected_movie.actor, selected_movie.director,
-                      selected_movie.genre, selected_movie.country, selected_movie.language,
-                      trailers.youtube_id, trailers.view_count, 
+                      selected_movie.genre,trailers.youtube_id, trailers.view_count, 
             """
             
-    if request_array['max_likes'] :
+    if 'max_likes' in request_array and request_array['max_likes'] is not None :
         query += "MAX(trailers.likes)"
     else :
         query += "trailers.likes"
@@ -124,7 +126,7 @@ def handle_query(request):
            """
 
     #add a filtering where clause on actor name if requested
-    if request_array['actor'] is not None :
+    if 'actor' in request_array and request_array['actor'] is not None :
         add_to_query = "WHERE actors.name = '{}'".format(request_array['actor'])
         query += add_to_query
 
@@ -137,7 +139,7 @@ def handle_query(request):
              """
 
     #add a filtering where clause on director's name if requested
-    if request_array['director'] is not None :
+    if 'director' in request_array and request_array['director'] is not None :
         add_to_query = "WHERE directors.name = '{}'".format(request_array['director'])
         query += add_to_query
 
@@ -146,7 +148,7 @@ def handle_query(request):
               	FROM genres JOIN movie_genre ON genres.genre_id = movie_genre.genre_id """
 
     #add a filtering where clause on film genre if requested
-    if request_array['film_genre'] is not None :
+    if 'film_genre' in request_array and request_array['film_genre'] is not None :
         add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre'])
         query += add_to_query
 
@@ -157,7 +159,7 @@ def handle_query(request):
               """
 
     #add a filtering where clause on country if requested
-    if request_array['film_location'] is not None :
+    if 'film_location' in request_array and request_array['film_location'] is not None :
         add_to_query = "WHERE country.country = '{}'".format(request_array['film_location'])
         query += add_to_query
 
@@ -167,7 +169,7 @@ def handle_query(request):
                       FROM language """
 
     #add a filtering where clause on film language if requested
-    if request_array['film_language'] is not None :
+    if 'film_language' in request_array and request_array['film_language'] is not None :
         add_to_query = "WHERE language.language LIKE '%{}%'".format(request_array['film_language'])
         query += add_to_query
 
@@ -176,7 +178,7 @@ def handle_query(request):
              """
 
     #add a filtering where clause on film IMDb Rating if requested
-    if request_array['rating'] is not None :
+    if 'rating' in request_array and request_array['rating'] is not None :
         add_to_query = "WHERE movies.rating > {}".format(request_array['rating'])
         query += add_to_query
 
@@ -187,17 +189,11 @@ def handle_query(request):
              """
 
     #add a filtering where clause on the movie's trailer youtube views if requested
-    if request_array['min_views'] is not None :
+    if 'min_views' in request_array and request_array['min_views'] is not None :
         add_to_query = "WHERE trailers.view_count >= {} ".format(request_array['min_views'])
         query += add_to_query
 
-    if request_array['max_likes'] :
-        query += """AND trailers.likes >= ALL( SELECT trailer.likes
-        													  FROM trailers
-        													  JOIN movies ON movies.movie_id = trailers.movie_id
-                 """
-    else :
-        query += "GROUP BY selected_movie.movie_id;"
+    query += "GROUP BY selected_movie.movie_id;"
 
 
     cursor.execute(query)

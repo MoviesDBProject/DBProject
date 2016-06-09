@@ -60,7 +60,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
            })
         }};
 
-    //$scope.init();
+    $scope.init();
 
     $scope.createYouTubePlaylist = function(youtube_id_list){
         //var youtube_id_list = ["JNfRQ4NBjUU", "X2i9Zz_AqTg"];
@@ -76,6 +76,8 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     };
 
     $scope.submit = function(){
+    	
+    	  console.log($scope.formData)
 
         $http({
             url: "/fetch_results/",
@@ -84,7 +86,8 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .then(function(response){
-            $scope.results_contents = response.data;
+            $scope.results_contents = response.data; 
+            console.log(response.data)
             if (response.data.length === 0) {
             	document.getElementById('show_results').innerHTML = "<h1>No corresponding movies found.</h1><h2><a href='/'>Try another search.</a></h2>"
             } 
@@ -96,7 +99,8 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
                                 }
                                 return lst;
                             }($scope.results_contents);
-            	$scope.youtube_url = createYouTubePlaylist(id_list);
+            	document.getElementById('youtube_iframe').src = $scope.createYouTubePlaylist(id_list);;
+            	
          	}
          	$scope.showResults = true;
 

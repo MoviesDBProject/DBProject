@@ -122,7 +122,7 @@
                         </label>
 
                         <input id="film_language" type="text" class="form-control" ng-model="formData.film_language" maxlength="30"
-                               ng-required = "!formData.film_genre || !formData.film_location"
+                               ng-required = "!formData.film_location"
                                uib-typeahead="x.language for x in languages | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors">
                     </p>
 
@@ -147,10 +147,10 @@
                             </label>
                         </p>
                         <input id="youtube_min_views" type="number" ng-model="formData.min_views"
-                               ng-required="!formData.max_likes || !formData.imdb_rating" ng-disabled="formData.top_actors">
+                               ng-required="!formData.imdb_rating" ng-disabled="formData.top_actors">
 
                     </p>
-
+5
                     <p id="max_likes">
                             <label>
 
@@ -198,31 +198,48 @@
                             <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="60%">
 
                                 <tr id="titles">
-                                    <th>
+                                    <th ng-if="result.title != null">
                                         Film name:
                                     </th>
-                                    <th>
+                                    <th ng-if="result.actor != null">
                                         Starring actor:
                                     </th>
-                                    <th>
+                                    <th ng-if="result.rating != null">
                                         Film IMDb Rating:
+                                    </th>
+                                    <th ng-if="result.likes != null">
+													Trailer #likes                                    
+                                    </th>
+                                    <th ng-if="result.view_count != null">
+                                       Trailer #views
                                     </th>
 
                                 </tr>
                                 <tr id="values">
 
                                     <td>
-                                        <span ng-bind=result.name></span>
+                                        <span ng-if="result.title != null" ng-bind=result.title></span>
                                     </td>
 
                                     <td>
-                                         <span ng-bind=result.actor></span>
+                                         <span ng-if="result.actor != null" ng-bind=result.actor></span>
                                     </td>
 
                                     <td>
-                                         <span ng-bind=result.rating></span>
+                                         <span ng-if="result.rating != null" ng-bind=result.rating></span>
                                     </td>
+                                    
+                                    <td>
+                                        <span ng-if="result.likes != null" ng-bind=result.likes></span>
+                                    </td>
+
+                                    <td>
+                                         <span ng-if="result.view_count != null" ng-bind=result.view_count></span>
+                                    </td>
+
+                                    
                                 </tr>
+                               
 
                             </table>
                         </tr>
@@ -232,7 +249,6 @@
             </tr>
 
         </table>
-        <br><br><span id="debug"></span><br>
     </div>
 
 </div>

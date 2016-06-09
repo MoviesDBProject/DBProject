@@ -120,7 +120,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     //                {'name':"Batman Vs. Superman", 'actor':"Ben Aflek","rating":4,"youtube_id":"X2i9Zz_AqTg"}];
 
     $scope.results_contents=[];
-    $scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
+    //$scope.youtube_url = $sce.trustAsResourceUrl("https://www.youtube.com/embed/VIDEO_ID?playlist=JNfRQ4NBjUU,X2i9Zz_AqTg");
 
     //document.getElementById('youtube_iframe').src = $scope.youtube_url;
 

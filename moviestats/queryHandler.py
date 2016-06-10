@@ -83,7 +83,7 @@ def handle_query(request):
 
     # Most Varied Actor Query
 	if 'most_varied_actor' in request_array and request_array['most_varied_actor'] is not None:
-		query = """SELECT actors.name, movies.title, trailers.youtube_id
+		query = """SELECT actors.name AS actor, movies.title AS title, trailers.youtube_id AS youtube_id
 						FROM trailers, movies, actors, movie_actor, (SELECT genres_per_actor.actor_id, MAX(genres_per_actor.num_of_genres) AS num_of_genres
 	                    FROM (SELECT actor_genre.actor_id, COUNT(actor_genre.genre) AS num_of_genres
 	                        FROM (SELECT DISTINCT actors.actor_id, genres.genre
@@ -98,10 +98,6 @@ def handle_query(request):
 
 		rows = dictFetchall(cursor)
 
-		# correcting decimal type to float(jsonable type)
-		for row in rows:
-			if row['rating'] is not None:
-				row['rating'] = float(row['rating'])
 		return HttpResponse(json.dumps(rows), content_type="application/json")
 
 

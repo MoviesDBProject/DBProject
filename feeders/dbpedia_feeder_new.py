@@ -75,12 +75,10 @@ def get_movies_from_dbpedia():
 						films_info.append(movie_info)
 						films.add(film_id)
 						fetched += 1
-						# pprint.pprint(movie_info)
 						print fetched
 					except Exception as e:
 						print str(e)
 						pass
-					# print "Success score: {0}/{1}".format(counter,fetched)
 
 			except Exception as e:
 				# print "Failed, Breaking"
@@ -226,9 +224,6 @@ def fetch_person_info(person_dbpedia):
 		NAME: name,
 		ID: hash_func(id)
 	}
-
-	# pprint.pprint(person_info)
-	# print "====================================="
 
 	return person_info
 

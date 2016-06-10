@@ -58,12 +58,23 @@
                      <p id="select_top_actors">
 
                          <label>
-                               <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor"
+                               <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor || formData.most_varied_actor"
                                  ng-required="!formData.selected_actor">
                               Select movies starring the top 10 actors
                          </label>
 
                     </p>
+
+                    <p id="select_most_varied_actor">
+
+                        <label>
+                            <input type="checkbox" id="most_varied_actor" ng-model="formData.most_varied_actor" ng-disabled="formData.actor || formData.top_actors"
+                                   ng-required="!formData.selected_actor">
+                            Select movies starring the most genre-varied actor
+                        </label>
+
+                    </p>
+
                     <span>Or</span>
                     <p id="select_actor_div">
                         <label for="select_actor">

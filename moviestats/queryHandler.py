@@ -83,10 +83,19 @@ def handle_query(request):
 
 	# Top actors
 	if 'top_actors' in request_array and request_array['top_actors'] is not None:
-		query = """SELECT youtube_id, title, rating, name AS actor
-                FROM top_actors
-                ORDER BY rating DESC
-                LIMIT 10"""
+		query = """SELECT actors.name AS actor, top_movies.youtube_id AS youtube_id, top_movies.view_count AS view_count, top_movies.title AS title, top_movies.rating AS rating
+                   FROM movie_actor
+                   JOIN actors
+                   ON actors.actor_id = movie_actor.actor_id
+                   JOIN (SELECT trailers.youtube_id, trailers.view_count, movies.title, movies.rating, movies.movie_id
+                   	   FROM trailers, movies
+                   	   WHERE trailers.movie_id = movies.movie_id AND movies.rating > 6 AND trailers.view_count > 100000
+                       ORDER BY trailers.view_count DESC) AS top_movies
+                   ON top_movies.movie_id = movie_actor.movie_id
+                   GROUP BY actors.name
+                   HAVING COUNT(actors.name) > 3
+                   ORDER BY top_movies.rating DESC
+                   LIMIT 10"""
 
 		cursor.execute(query)
 

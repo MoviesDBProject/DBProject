@@ -144,6 +144,7 @@ def handle_query(request):
 		return HttpResponse(json.dumps(rows), content_type="application/json")
 
 
+
     # Creating query with Search parameters
 	query = """SELECT selected_movie.title, selected_movie.rating, selected_movie.actor, selected_movie.director,
                       selected_movie.genre,trailers.youtube_id, trailers.view_count, 
@@ -169,7 +170,9 @@ def handle_query(request):
 	if 'actor' in request_array and request_array['actor'] is not None:
 		add_to_query = "WHERE actors.name = '{}'".format(request_array['actor'])
 		query += add_to_query
+		
 
+	
 	query += """
                 ) AS selected_actor ON movies.movie_id = selected_actor.movie_id
                 JOIN (
@@ -182,6 +185,7 @@ def handle_query(request):
 	if 'director' in request_array and request_array['director'] is not None:
 		add_to_query = "WHERE directors.name = '{}'".format(request_array['director'])
 		query += add_to_query
+		
 
 	query += """) AS selected_director ON movies.movie_id = selected_director.movie_id
                 JOIN (SELECT genres.genre, movie_genre.movie_id
@@ -191,6 +195,7 @@ def handle_query(request):
 	if 'film_genre' in request_array and request_array['film_genre'] is not None:
 		add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre']['genre'])
 		query += add_to_query
+
 
 	query += """
                 ) AS selected_genre ON movies.movie_id = selected_genre.movie_id
@@ -203,6 +208,7 @@ def handle_query(request):
 		add_to_query = "WHERE country.country = '{}'".format(request_array['film_location'])
 		query += add_to_query
 
+
 	query += """
                 ) AS selected_country ON selected_country.country_id = movies.country_id
                 JOIN (SELECT language.language_id, language.language
@@ -213,6 +219,7 @@ def handle_query(request):
 		add_to_query = "WHERE language.language LIKE '%{}%'".format(request_array['film_language'])
 		query += add_to_query
 
+
 	query += """
                ) AS selected_language ON selected_language.language_id = movies.language_id
              """
@@ -221,6 +228,7 @@ def handle_query(request):
 	if 'rating' in request_array and request_array['rating'] is not None:
 		add_to_query = "WHERE movies.rating > {}".format(request_array['rating'])
 		query += add_to_query
+
 
 	# closing the first JOIN
 	query += """
@@ -233,12 +241,15 @@ def handle_query(request):
 		add_to_query = "WHERE trailers.view_count >= {} ".format(request_array['min_views'])
 		query += add_to_query
 
+
 	if 'max_likes' in request_array and request_array['max_likes'] is not None:
 		query += "GROUP BY trailers.likes;"
 	else:
 		query += "GROUP BY selected_movie.movie_id;"
 
 	cursor.execute(query)
+	
+
 
 	rows = dictFetchall(cursor)
 
@@ -246,6 +257,8 @@ def handle_query(request):
 	for row in rows:
 		if row['rating'] is not None:
 			row['rating'] = float(row['rating'])
+			
+
 
 	connection.close()
 

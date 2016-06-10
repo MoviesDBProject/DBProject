@@ -63,3 +63,7 @@ body {
 #results_table {
     margin-left: 10%;
 }
+
+th,td {
+	text-align: center;
+}

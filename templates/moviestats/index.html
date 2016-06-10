@@ -218,7 +218,7 @@
                             </td>
                         </tr>
                         <tr class="col-md-6">
-                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="80%">
+                            <table id="description" ng-repeat="result in results_contents" ng-show="show_item == $index" width="80%">
 
                                 <tr id="titles">
 
@@ -244,40 +244,44 @@
                                     <th ng-if="result.view_count != null">
                                        Trailer #views
                                     </th>
+                                    
+												<th ng-if="result.country != null">
+                                       Film Location
+                                    </th>
 
                                 </tr>
                                 <tr id="values">
 
-                                		<td>
-                                        <span ng-if="result.title != null" ng-bind="show_item"></span>
+                                		<td ng-if="result.title != null">
+                                        <span  ng-bind="show_item"></span>
                                     </td>
 
-                                    <td>
-                                        <span ng-if="result.title != null" ng-bind=result.title></span>
+                                    <td ng-if="result.title != null" >
+                                        <span ng-bind=result.title></span>
                                     </td>
 
-                                    <td>
-                                         <span ng-if="result.actor != null" ng-bind=result.actor></span>
+                                    <td ng-if="result.actor != null" >
+                                         <span ng-bind=result.actor></span>
                                     </td>
 
-                                    <td>
-                                         <span ng-if="result.director != null" ng-bind=result.director></span>
+                                    <td ng-if="result.director != null">
+                                         <span ng-bind=result.director></span>
                                     </td>
 
-                                    <td>
-                                         <span ng-if="result.rating != null" ng-bind=result.rating></span>
+                                    <td ng-if="result.rating != null">
+                                         <span  ng-bind=result.rating></span>
                                     </td>
                                     
-                                    <td>
-                                        <span ng-if="result.likes != null" ng-bind=result.likes></span>
+                                    <td ng-if="result.likes != null">
+                                        <span  ng-bind=result.likes></span>
                                     </td>
 
-                                    <td>
-                                         <span ng-if="result.view_count != null" ng-bind=result.view_count></span>
+                                    <td  ng-if="result.view_count != null">
+                                         <span ng-bind=result.view_count></span>
                                     </td>
 
-                                    <td>
-                                        <span ng-if="result.country != null" ng-bind=result.country></span>
+                                    <td ng-if="result.country != null">
+                                        <span ng-bind=result.country></span>
                                     </td>
                                     
                                 </tr>

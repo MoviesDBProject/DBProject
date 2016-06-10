@@ -3,8 +3,10 @@ from django.db import connection
 import json
 from django.views.decorators.csrf import csrf_exempt
 import re
-from feeders.dbpedia_feeder_new import *
-
+try:
+	from feeders.dbpedia_feeder_new import *
+except:
+	pass
 
 def dictFetchall(cursor):
 	"""Return all rows from a cursor as a dict"""
@@ -76,22 +78,45 @@ def init_handler(request):
 @csrf_exempt
 def handle_query(request):
 	cursor = connection.cursor()
-
 	request_array = json.loads(request.body)
 
-	query = ""
+
+    # Most Varied Actor Query
+	if 'most_varied_actor' in request_array and request_array['most_varied_actor'] is not None:
+		query = """SELECT actors.name, movies.title, trailers.youtube_id
+						FROM trailers, movies, actors, movie_actor, (SELECT genres_per_actor.actor_id, MAX(genres_per_actor.num_of_genres) AS num_of_genres
+	                    FROM (SELECT actor_genre.actor_id, COUNT(actor_genre.genre) AS num_of_genres
+	                        FROM (SELECT DISTINCT actors.actor_id, genres.genre
+	                            FROM actors, genres, movies, movie_genre, movie_actor
+	                            WHERE actors.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movie_genre.movie_id = movies.movie_id
+	                            AND movie_genre.genre_id = genres.genre_id AND actors.name <> 'See below') AS actor_genre
+	                        GROUP BY actor_genre.actor_id
+	                        ORDER BY num_of_genres DESC) AS genres_per_actor
+	                    ) AS most_varied_actor
+	                WHERE most_varied_actor.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movies.movie_id = trailers.movie_id AND actors.actor_id = movie_actor.actor_id"""
+		cursor.execute(query)
+
+		rows = dictFetchall(cursor)
+
+		# correcting decimal type to float(jsonable type)
+		for row in rows:
+			if row['rating'] is not None:
+				row['rating'] = float(row['rating'])
+		return HttpResponse(json.dumps(rows), content_type="application/json")
+
 
 
 	# Top Actors Query
 	if 'top_actors' in request_array and request_array['top_actors'] is not None:
 		query = """SELECT actors.name AS actor, top_movies.youtube_id AS youtube_id, top_movies.view_count AS view_count, top_movies.title AS title, top_movies.rating AS rating
-                   FROM movie_actor
+					FROM movie_actor
                    JOIN actors
                    ON actors.actor_id = movie_actor.actor_id
-                   JOIN (SELECT trailers.youtube_id, trailers.view_count, movies.title, movies.rating, movies.movie_id
-                   	   FROM trailers, movies
-                   	   WHERE trailers.movie_id = movies.movie_id AND movies.rating > 6 AND trailers.view_count > 100000
-                       ORDER BY trailers.view_count DESC) AS top_movies
+                   JOIN ( SELECT trailers.youtube_id, trailers.view_count, movies.title, movies.rating, movies.movie_id
+                   	     FROM trailers, movies
+                   	     WHERE trailers.movie_id = movies.movie_id AND movies.rating > 6 AND trailers.view_count > 100000
+                          ORDER BY trailers.view_count DESC
+							  )AS top_movies
                    ON top_movies.movie_id = movie_actor.movie_id
                    GROUP BY actors.name
                    HAVING COUNT(actors.name) > 3
@@ -110,35 +135,7 @@ def handle_query(request):
 		return HttpResponse(json.dumps(rows), content_type="application/json")
 
 
-    # Most Varied Actor Query
-    if 'most_varied_actor' in request_array and request_array['most_varied_actor'] is not None:
-        query = """SELECT actors.name, movies.title, trailers.youtube_id
-                    FROM trailers, movies, actors, movie_actor, (SELECT genres_per_actor.actor_id,
-                        MAX(genres_per_actor.num_of_genres) AS num_of_genres
-                        FROM (SELECT actor_genre.actor_id, COUNT(actor_genre.genre) AS num_of_genres
-                            FROM (SELECT DISTINCT actors.actor_id, genres.genre
-                                FROM actors, genres, movies, movie_genre, movie_actor
-                                WHERE actors.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id
-                                AND movie_genre.movie_id = movies.movie_id AND movie_genre.genre_id = genres.genre_id AND actors.name <> 'See below') AS actor_genre
-                            GROUP BY actor_genre.actor_id
-                            ORDER BY num_of_genres DESC) AS genres_per_actor
-                        ) AS most_varied_actor
-                    WHERE most_varied_actor.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id
-                    AND movies.movie_id = trailers.movie_id AND actors.actor_id = movie_actor.actor_id"""
-
-        cursor.execute(query)
-
-        rows = dictFetchall(cursor)
-
-        # correcting decimal type to float(jsonable type)
-        for row in rows:
-            if row['rating'] is not None:
-                row['rating'] = float(row['rating'])
-
-        return HttpResponse(json.dumps(rows), content_type="application/json")
-
-
-	# Creating query with Search parameters
+    # Creating query with Search parameters
 	query = """SELECT selected_movie.title, selected_movie.rating, selected_movie.actor, selected_movie.director,
                       selected_movie.genre,trailers.youtube_id, trailers.view_count, 
             """
@@ -183,7 +180,7 @@ def handle_query(request):
 
 	# add a filtering where clause on film genre if requested
 	if 'film_genre' in request_array and request_array['film_genre'] is not None:
-		add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre'])
+		add_to_query = "WHERE genres.genre = '{}'".format(request_array['film_genre']['genre'])
 		query += add_to_query
 
 	query += """
@@ -255,9 +252,11 @@ def update_db(request):
 
 	request_array = json.loads(request.body)
 	if 'token' in request_array and request_array['token'] == 'DbMysql03':
-		get_movies_from_dbpedia()
-		resopnse = {'status': 'OK'}
-
+		try:
+			get_movies_from_dbpedia()
+			resopnse = {'status': 'OK'}
+		except:
+			resopnse = {'status': 'NOK'}
 	else:
 		resopnse = {'status': 'NOK'}
 

@@ -15590,3 +15590,9 @@ INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.c
 DEBUG:googleapiclient.discovery_cache.file_cache:Could not obtain a lock for the cache file.
 INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/youtube/v3/search?q=Happy+Feet+trailer&part=id%2Csnippet&key=AIzaSyBLSYoNqhNGt83v5ZZkn2lof8z_0CT6rtc&alt=json&type=video&maxResults=1
 INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/youtube/v3/videos?alt=json&part=id%2Cstatistics&id=hFUC5adf8FE&key=AIzaSyBLSYoNqhNGt83v5ZZkn2lof8z_0CT6rtc
+DEBUG:root:[+]======= dbpedia feeder started ======[+]
+DEBUG:root:[+]==== Getting movies from 15000 to 16000 ====[+]
+DEBUG:root:[+]======= dbpedia feeder started ======[+]
+DEBUG:root:[+]==== Getting movies from 15000 to 16000 ====[+]
+DEBUG:root:[+]======= dbpedia feeder started ======[+]
+DEBUG:root:[+]==== Getting movies from 15000 to 16000 ====[+]

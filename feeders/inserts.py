@@ -1,5 +1,4 @@
 import MySQLdb
-from dbpedia_feeder import *
 from pycountry import *
 
 

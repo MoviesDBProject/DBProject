@@ -123,7 +123,7 @@
                             Film Location
                         </label>
                         <input id="movie_location" type="text" class="form-control" ng-model="formData.film_location" maxlength="30"
-                               ng-required = "!formData.film_language && !formData.film_genre &!formData.rating"
+                               ng-required = "!formData.film_language && !formData.film_genre && !formData.rating"
                                uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor">
 
                     </p>
@@ -208,14 +208,22 @@
                             </td>
                         </tr>
                         <tr class="col-md-6">
-                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="60%">
+                            <table ng-repeat="result in results_contents" ng-show="show_item == $index" width="80%">
 
                                 <tr id="titles">
+                                
+                                		<th>
+                                        Film number:
+                                    </th>
                                     <th ng-if="result.title != null">
                                         Film name:
                                     </th>
                                     <th ng-if="result.actor != null">
                                         Starring actor:
+                                    </th>
+                                    
+                                    <th ng-if="result.director != null">
+                                        Film Director:
                                     </th>
                                     <th ng-if="result.rating != null">
                                         Film IMDb Rating:
@@ -229,6 +237,10 @@
 
                                 </tr>
                                 <tr id="values">
+                                
+                                		<td>
+                                        <span ng-if="result.title != null" ng-bind="show_item"></span>
+                                    </td>
 
                                     <td>
                                         <span ng-if="result.title != null" ng-bind=result.title></span>
@@ -236,6 +248,10 @@
 
                                     <td>
                                          <span ng-if="result.actor != null" ng-bind=result.actor></span>
+                                    </td>
+                                    
+                                    <td>
+                                         <span ng-if="result.director != null" ng-bind=result.director></span>
                                     </td>
 
                                     <td>

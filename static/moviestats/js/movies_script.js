@@ -56,10 +56,9 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
                }
            },
            function errorCallback(response){
-               if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/not_found/";
-                    $window.location.href = landingUrl;
-               }
+               window.alert("Something went wrong");
+               var landingUrl = "http://" + $window.location.host;
+               $window.location.href = landingUrl;
            })
         }};
 
@@ -99,11 +98,6 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
             } 
             else {
                 $scope.show_item = 0;
-                if ($scope.results_contents.length < 2)
-                    $scope.disable_next_button()
-                else
-                    $scope.enable_next_button();
-                $scope.disable_previous_button();
 
             	var id_list = function(data) {
                                 var lst = [];
@@ -118,10 +112,10 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
          	$scope.showResults = true;
 
         } , function errorCallback(response){
-               if (response.status == 404) {
-                   var landingUrl = "http://" + $window.location.host + "/not_found/";
-                    $window.location.href = landingUrl;
-               }
+        			window.alert("Something went wrong");
+               var landingUrl = "http://" + $window.location.host;
+               $window.location.href = landingUrl;
+               
            })
     };
 
@@ -142,8 +136,7 @@ MoviesApp.controller('mainController',['$scope','$http','$sce','$window', functi
     };
 
     $scope.show_item = 0;
-    $scope.previous_disabled = 1;
-    $scope.next_disabled = 0;
+
 
 
 

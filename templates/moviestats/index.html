@@ -60,7 +60,7 @@
                          <label>
                                <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor"
                                  ng-required="!formData.selected_actor">
-                              Select movies starring the top actors
+                              Select movies starring the top 10 actors
                          </label>
 
                     </p>
@@ -239,6 +239,9 @@
                                          <span ng-if="result.view_count != null" ng-bind=result.view_count></span>
                                     </td>
 
+                                    <td>
+                                        <span ng-if="result.country != null" ng-bind=result.country></span>
+                                    </td>
                                     
                                 </tr>
                                

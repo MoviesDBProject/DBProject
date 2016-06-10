@@ -121,10 +121,10 @@ def handle_query(request):
                             FROM (SELECT DISTINCT actors.actor_id, genres.genre
                                 FROM actors, genres, movies, movie_genre, movie_actor
                                 WHERE actors.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movie_genre.movie_id = movies.movie_id
-                                AND movie_genre.genre_id = genres.genre_id) AS actor_genre
+                                AND movie_genre.genre_id = genres.genre_id AND actors.name <> 'See below') AS actor_genre
                             GROUP BY actor_genre.actor_id
                             ORDER BY num_of_genres DESC) AS genres_per_actor
-                       WHERE genres_per_actor.num_of_genres < 16) AS most_varied_actor
+                       ) AS most_varied_actor
                    WHERE most_varied_actor.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movies.movie_id = trailers.movie_id AND actors.actor_id = movie_actor.actor_id"""
 
         cursor.execute(query)

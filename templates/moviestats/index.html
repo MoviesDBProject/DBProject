@@ -58,17 +58,27 @@
                      <p id="select_top_actors">
 
                          <label>
-                               <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor || formData.most_varied_actor"
+                               <input type="checkbox" id="top_actors" ng-model="formData.top_actors" ng-disabled="formData.actor || formData.most_varied_actor || formData.country_top_rated"
                                  ng-required="!formData.selected_actor">
                               Select movies starring the top 10 actors
                          </label>
 
                     </p>
 
+                    <p id="select_country_top_rated">
+
+                        <label>
+                            <input type="checkbox" id="country_top_rated" ng-model="formData.country_top_rated" ng-disabled="formData.actor || formData.top_actors || formData.most_varied_actor"
+                                   ng-required="!formData.selected_actor">
+                            Select movies beyond 2004 from the top rated English-spoken movie in each country
+                        </label>
+
+                    </p>
+
                     <p id="select_most_varied_actor">
 
                         <label>
-                            <input type="checkbox" id="most_varied_actor" ng-model="formData.most_varied_actor" ng-disabled="formData.actor || formData.top_actors"
+                            <input type="checkbox" id="most_varied_actor" ng-model="formData.most_varied_actor" ng-disabled="formData.actor || formData.top_actors || formData.country_top_rated"
                                    ng-required="!formData.selected_actor">
                             Select movies starring the most genre-varied actor
                         </label>
@@ -82,7 +92,7 @@
                         </label>
 
                         <input type="text" id="select_actor" class="form-control" ng-model="formData.actor"
-                               uib-typeahead="a.actor for a in actors | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor">
+                               uib-typeahead="a.actor for a in actors | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
 
                     </p>
 
@@ -92,7 +102,7 @@
                         </label>
                         <input type="text" class="form-control" ng-model="formData.director"
                                ng-required="!formData.actor"
-                               uib-typeahead="a.director for a in directors | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor">
+                               uib-typeahead="a.director for a in directors | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
                     </p>
 
 
@@ -111,7 +121,7 @@
                         <br>
                         <select ng-model="formData.film_genre" ng-options="x.genre for x in genres" form="preferences"
                                 ng-required = "!formData.film_location && !formData.film_language && !formData.rating"
-                                 ng-disabled="formData.top_actors || formData.most_varied_actor">
+                                 ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
 
                             <option value="" selected > Genres </option>
                         </select>
@@ -124,7 +134,7 @@
                         </label>
                         <input id="movie_location" type="text" class="form-control" ng-model="formData.film_location" maxlength="30"
                                ng-required = "!formData.film_language && !formData.film_genre &!formData.rating"
-                               uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor">
+                               uib-typeahead="x.country for x in countries | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
 
                     </p>
 
@@ -134,7 +144,7 @@
                         </label>
 
                         <input id="film_language" type="text" class="form-control" ng-model="formData.film_language" maxlength="30"
-                               uib-typeahead="x.language for x in languages | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor">
+                               uib-typeahead="x.language for x in languages | filter:$viewValue | limitTo:8" ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
                     </p>
 
                     <p id="imdb">
@@ -146,7 +156,7 @@
                         </p>
 
                        <input id="imdb_rating" type="number" ng-model="formData.rating"  min="0" max="10"
-                              ng-disabled="formData.top_actors || formData.most_varied_actor">
+                              ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
 
                     </p>
 
@@ -158,7 +168,7 @@
                             </label>
                         </p>
                         <input id="youtube_min_views" type="number" ng-model="formData.min_views"
-                               ng-required="!formData.imdb_rating && !formData.film_genre" ng-disabled="formData.top_actors || formData.most_varied_actor">
+                               ng-required="!formData.imdb_rating && !formData.film_genre" ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
 
                     </p>
 
@@ -166,7 +176,7 @@
                             <label>
 
                                 <input id="youtube_max_likes" type="checkbox" ng-model="formData.max_likes"
-                                 ng-disabled="formData.top_actors || formData.most_varied_actor">
+                                 ng-disabled="formData.top_actors || formData.most_varied_actor || formData.country_top_rated">
                                 Choose most popular film (by likes)
                             </label>
 

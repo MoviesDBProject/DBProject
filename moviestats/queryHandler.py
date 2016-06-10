@@ -102,6 +102,23 @@ def handle_query(request):
 
 
 
+    # Top rated English movie in each country (Beyond 2004)
+    if 'country_top_rated' in request_array and request_array['country_top_rated'] is not None:
+        query = """SELECT trailers.youtube_id, movies.title, country_highest_rated.country
+                   FROM trailers, movies, (SELECT combined_tables.movie_id, combined_tables.country
+                   	FROM (SELECT movies.movie_id, country.country
+                   		FROM movies, language, country
+                   		WHERE movies.language_id = language.language_id AND language.language = 'English' AND movies.country_id = country.country_id
+                   		ORDER BY rating DESC) AS combined_tables
+                   	GROUP BY combined_tables.country) AS country_highest_rated
+                   WHERE trailers.movie_id = country_highest_rated.movie_id AND movies.movie_id = country_highest_rated.movie_id AND movies.year > 2004"""
+        cursor.execute(query)
+
+        rows = dictFetchall(cursor)
+
+        return HttpResponse(json.dumps(rows), content_type="application/json")
+
+
 	# Top Actors Query
 	if 'top_actors' in request_array and request_array['top_actors'] is not None:
 		query = """SELECT actors.name AS actor, top_movies.youtube_id AS youtube_id, top_movies.view_count AS view_count, top_movies.title AS title, top_movies.rating AS rating

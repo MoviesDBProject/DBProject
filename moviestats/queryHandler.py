@@ -113,16 +113,18 @@ def handle_query(request):
     # Most Varied Actor Query
     if 'most_varied_actor' in request_array and request_array['most_varied_actor'] is not None:
         query = """SELECT actors.name, movies.title, trailers.youtube_id
-                FROM trailers, movies, actors, movie_actor, (SELECT genres_per_actor.actor_id, MAX(genres_per_actor.num_of_genres) AS num_of_genres
-                    FROM (SELECT actor_genre.actor_id, COUNT(actor_genre.genre) AS num_of_genres
-                        FROM (SELECT DISTINCT actors.actor_id, genres.genre
-                            FROM actors, genres, movies, movie_genre, movie_actor
-                            WHERE actors.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movie_genre.movie_id = movies.movie_id
-                            AND movie_genre.genre_id = genres.genre_id AND actors.name <> 'See below') AS actor_genre
-                        GROUP BY actor_genre.actor_id
-                        ORDER BY num_of_genres DESC) AS genres_per_actor
-                    ) AS most_varied_actor
-                WHERE most_varied_actor.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id AND movies.movie_id = trailers.movie_id AND actors.actor_id = movie_actor.actor_id"""
+                    FROM trailers, movies, actors, movie_actor, (SELECT genres_per_actor.actor_id,
+                        MAX(genres_per_actor.num_of_genres) AS num_of_genres
+                        FROM (SELECT actor_genre.actor_id, COUNT(actor_genre.genre) AS num_of_genres
+                            FROM (SELECT DISTINCT actors.actor_id, genres.genre
+                                FROM actors, genres, movies, movie_genre, movie_actor
+                                WHERE actors.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id
+                                AND movie_genre.movie_id = movies.movie_id AND movie_genre.genre_id = genres.genre_id AND actors.name <> 'See below') AS actor_genre
+                            GROUP BY actor_genre.actor_id
+                            ORDER BY num_of_genres DESC) AS genres_per_actor
+                        ) AS most_varied_actor
+                    WHERE most_varied_actor.actor_id = movie_actor.actor_id AND movie_actor.movie_id = movies.movie_id
+                    AND movies.movie_id = trailers.movie_id AND actors.actor_id = movie_actor.actor_id"""
 
         cursor.execute(query)
 
